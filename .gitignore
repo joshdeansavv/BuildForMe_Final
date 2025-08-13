@@ -114,3 +114,4 @@ supabase-cli.tar.gz
 *.key
 *.crt
 *.pfx
+bun.lockb
