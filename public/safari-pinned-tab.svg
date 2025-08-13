@@ -1,0 +1,12 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+ "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+ width="512" height="512" viewBox="0 0 512 512"
+ preserveAspectRatio="xMidYMid meet">
+<g fill="#000000">
+<rect x="64" y="64" width="384" height="384" rx="64" ry="64"/>
+<rect x="128" y="128" width="256" height="256" rx="32" ry="32" fill="#ffffff"/>
+<text x="256" y="280" font-family="Arial, sans-serif" font-size="120" font-weight="bold" text-anchor="middle" fill="#000000">B</text>
+</g>
+</svg>

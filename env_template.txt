@@ -1,0 +1,42 @@
+# Environment Variables Template
+# Copy this file to .env and fill in your actual values
+
+# Discord Bot Configuration
+DISCORD_BOT_TOKEN=your_discord_bot_token_here
+DISCORD_CLIENT_ID=your_discord_client_id_here
+DISCORD_CLIENT_SECRET=your_discord_client_secret_here
+
+# OpenAI Configuration
+OPENAI_API_KEY=your_openai_api_key_here
+
+# Supabase Configuration
+SUPABASE_URL=your_supabase_url_here
+SUPABASE_ANON_KEY=your_supabase_anon_key_here
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key_here
+
+# Stripe Configuration
+STRIPE_SECRET_KEY=your_stripe_secret_key_here
+STRIPE_WEBHOOK_SECRET=your_stripe_webhook_secret_here
+
+# React App Environment Variables
+REACT_APP_SUPABASE_URL=your_supabase_url_here
+REACT_APP_SUPABASE_ANON_KEY=your_supabase_anon_key_here
+REACT_APP_DISCORD_CLIENT_ID=your_discord_client_id_here
+REACT_APP_DISCORD_REDIRECT_URI=https://buildforme.xyz/auth
+
+# Vite Environment Variables
+VITE_SUPABASE_URL=your_supabase_url_here
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key_here
+VITE_DISCORD_CLIENT_ID=your_discord_client_id_here
+VITE_DISCORD_REDIRECT_URI=https://buildforme.xyz/auth
+
+# Stripe Price IDs for React App
+REACT_APP_STRIPE_AI_PREMIUM_PRICE_ID=your_stripe_ai_premium_price_id_here
+
+# Vite Stripe Environment Variables
+# IMPORTANT: Replace this with your actual Stripe Price ID from your Stripe Dashboard
+# Go to Stripe Dashboard > Products > Your Product > Pricing > Copy the Price ID
+VITE_STRIPE_AI_PREMIUM_PRICE_ID=price_your_actual_stripe_price_id_here
+
+# Example of what a real Stripe Price ID looks like:
+# VITE_STRIPE_AI_PREMIUM_PRICE_ID=price_1OqX8X2eZvKYlo2C9qX8X2eZ

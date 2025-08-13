@@ -1,0 +1,79 @@
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+import Stripe from 'https://esm.sh/stripe@12.0.0'
+
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+}
+
+serve(async (req) => {
+  if (req.method === 'OPTIONS') {
+    return new Response('ok', { headers: corsHeaders })
+  }
+
+  try {
+    const supabaseClient = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+    )
+
+    const { data: { user } } = await supabaseClient.auth.getUser(
+      req.headers.get('Authorization')?.replace('Bearer ', '') ?? ''
+    )
+
+    if (!user) {
+      throw new Error('Unauthorized')
+    }
+
+    const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY') ?? '', {
+      apiVersion: '2023-10-16',
+    })
+
+    // Get user's subscription
+    const { data: subscription } = await supabaseClient
+      .from('subscriptions')
+      .select('stripe_subscription_id')
+      .eq('user_id', user.id)
+      .single()
+
+    if (!subscription?.stripe_subscription_id) {
+      throw new Error('No active subscription found')
+    }
+
+    // Cancel the subscription at period end
+    const canceledSubscription = await stripe.subscriptions.update(
+      subscription.stripe_subscription_id,
+      { cancel_at_period_end: true }
+    )
+
+    // Update the database
+    await supabaseClient
+      .from('subscriptions')
+      .update({ 
+        cancel_at_period_end: true,
+        status: 'canceled'
+      })
+      .eq('user_id', user.id)
+
+    return new Response(
+      JSON.stringify({ 
+        success: true,
+        message: 'Subscription will be canceled at the end of the current period'
+      }),
+      { 
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: 200
+      }
+    )
+
+  } catch (error) {
+    return new Response(
+      JSON.stringify({ error: error.message }),
+      { 
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: 400
+      }
+    )
+  }
+})
