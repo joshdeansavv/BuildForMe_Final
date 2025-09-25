@@ -1,5 +1,4 @@
 import type { Config } from "tailwindcss";
-import tailwindcssAnimate from "tailwindcss-animate";
 
 const config: Config = {
   darkMode: ["class"],
@@ -18,19 +17,11 @@ const config: Config = {
         "2xl": "1400px",
       },
     },
-    screens: {
-      'xs': '475px',
-      'sm': '640px',
-      'md': '768px',
-      'lg': '1024px',
-      'xl': '1280px',
-      '2xl': '1536px',
-    },
     extend: {
       colors: {
-        border: "var(--border)",
-        input: "var(--input)",
-        ring: "var(--ring)",
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
         background: "#000000",
         foreground: "#FFFFFF",
         primary: {
@@ -88,8 +79,8 @@ const config: Config = {
         },
       },
       backgroundImage: {
-        'gradient-primary': 'linear-gradient(90deg, #ff3131 0%, #9611ff 100%)',
-        'gradient-primary-blur': 'linear-gradient(90deg, rgba(255,49,49,0.8) 0%, rgba(150,17,255,0.8) 100%)',
+        'gradient-primary': 'linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%)',
+        'gradient-primary-blur': 'linear-gradient(90deg, rgba(131,58,180,0.8) 0%, rgba(253,29,29,0.8) 50%, rgba(252,176,69,0.8) 100%)',
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -121,7 +112,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [tailwindcssAnimate],
+  plugins: [require("tailwindcss-animate")],
 } satisfies Config;
 
 export default config;

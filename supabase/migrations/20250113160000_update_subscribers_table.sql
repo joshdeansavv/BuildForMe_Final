@@ -1,7 +1,7 @@
--- Update subscribers table - add any missing columns
--- (Table is already created in earlier migration)
+-- Update subscribers table to match check-subscription function expectations
+-- Add missing columns that the function expects
 
--- Add missing columns if they don't exist (for backwards compatibility)
+-- Add new columns if they don't exist
 ALTER TABLE subscribers 
 ADD COLUMN IF NOT EXISTS discord_user_id TEXT,
 ADD COLUMN IF NOT EXISTS discord_username TEXT,
@@ -38,7 +38,6 @@ CREATE POLICY "Service role can manage all subscriptions" ON subscribers
 CREATE OR REPLACE FUNCTION update_subscribers_updated_at()
 RETURNS TRIGGER AS $$
 BEGIN
-  SET search_path = public;
   NEW.updated_at = NOW();
   RETURN NEW;
 END;

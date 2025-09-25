@@ -34,19 +34,17 @@
     --radius: 0.5rem;
     
     /* Custom Design System */
-    --gradient-primary: linear-gradient(90deg, #ff3131 0%, #9611ff 100%);
+    --gradient-primary: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
     --gradient-secondary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     
-    /* Professional Spacing Scale (8px base unit) */
-    --space-xs: 0.25rem;    /* 4px */
-    --space-sm: 0.5rem;     /* 8px */
-    --space-md: 1rem;       /* 16px */
-    --space-lg: 1.5rem;     /* 24px */
-    --space-xl: 2rem;       /* 32px */
-    --space-2xl: 3rem;      /* 48px */
-    --space-3xl: 4rem;      /* 64px */
-    --space-4xl: 6rem;      /* 96px */
-    --space-5xl: 8rem;      /* 128px */
+    /* Spacing Scale */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+    --space-3xl: 4rem;
     
     /* Typography Scale */
     --text-xs: 0.75rem;
@@ -60,7 +58,6 @@
     --text-5xl: 3rem;
     --text-6xl: 3.75rem;
     --text-7xl: 4.5rem;
-    --text-8xl: 6rem;
     
     /* Component Variables */
     --button-padding-y: var(--space-sm);
@@ -83,14 +80,10 @@
     @apply bg-background text-foreground;
     background-color: #000000;
     color: #FFFFFF;
-    /* Always reserve vertical scrollbar to prevent layout shift */
-    overflow-y: scroll;
     /* Improve text rendering */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    /* Prevent infinite scroll above header */
-    scroll-padding-top: 4rem; /* 64px to match navbar height */
   }
 
   /* Comprehensive text wrapping fixes for all elements */
@@ -127,29 +120,6 @@
   html, body {
     overflow-x: hidden;
     max-width: 100%;
-  }
-  
-  /* Prevent infinite scroll above header and avoid layout shift from scrollbar */
-  html {
-    scroll-behavior: smooth;
-    scrollbar-gutter: stable both-edges;
-  }
-  
-  /* Prevent scrolling above the viewport */
-  body {
-    min-height: 100vh;
-    position: relative;
-  }
-  
-  /* Ensure the page content is properly positioned */
-  #root {
-    min-height: 100vh;
-    position: relative;
-  }
-  
-  /* Prevent infinite scroll above header */
-  html {
-    scroll-behavior: smooth;
   }
 
   .container {
@@ -214,130 +184,61 @@
     overflow-wrap: break-word;
   }
 
-  /* Professional spacing utilities */
-  .section-padding {
-    padding-top: var(--space-2xl);
-    padding-bottom: var(--space-2xl);
-  }
-
-  .section-padding-lg {
-    padding-top: var(--space-3xl);
-    padding-bottom: var(--space-3xl);
-  }
-
-  .section-padding-xl {
-    padding-top: var(--space-4xl);
-    padding-bottom: var(--space-4xl);
-  }
-
-  .section-padding-2xl {
-    padding-top: var(--space-5xl);
-    padding-bottom: var(--space-5xl);
-  }
-
-  /* Component spacing */
-  .component-gap {
-    gap: var(--space-md);
-  }
-
-  .component-gap-lg {
-    gap: var(--space-lg);
-  }
-
-  .component-gap-xl {
-    gap: var(--space-xl);
-  }
-
-  .component-gap-2xl {
-    gap: var(--space-2xl);
-  }
-
-  /* Typography improvements */
-  .heading-1 {
-    font-size: clamp(2.5rem, 6vw, 4rem);
-    line-height: 1.1;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-  }
-
-  .heading-2 {
-    font-size: clamp(2rem, 5vw, 3rem);
-    line-height: 1.2;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-  }
-
-  .heading-3 {
-    font-size: clamp(1.5rem, 4vw, 2.25rem);
-    line-height: 1.3;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-  }
-
-  .body-large {
-    font-size: clamp(1.125rem, 2.5vw, 1.25rem);
-    line-height: 1.6;
-    font-weight: 400;
-  }
-
-  .body-medium {
-    font-size: clamp(1rem, 2vw, 1.125rem);
-    line-height: 1.6;
-    font-weight: 400;
-  }
-
-  .body-small {
-    font-size: clamp(0.875rem, 1.5vw, 1rem);
-    line-height: 1.5;
-    font-weight: 400;
-  }
-
-  /* Interactive elements */
+  /* Button text wrapping fixes */
   button, .btn-primary, .btn-secondary, .btn-gradient {
-    transition: all 0.2s ease-in-out;
-    transform-origin: center;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    text-align: center;
+    min-height: fit-content;
   }
 
-  button:hover, .btn-primary:hover, .btn-secondary:hover, .btn-gradient:hover {
-    transform: translateY(-1px);
-  }
-
+  /* Card content wrapping */
   .card-dark, .card-white {
-    transition: all 0.2s ease-in-out;
-    transform-origin: center;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
   }
 
-  .card-dark:hover, .card-white:hover {
-    transform: translateY(-2px);
-  }
-
+  /* Badge text wrapping */
   .badge-gradient, .badge-simple, .badge-dark {
-    transition: all 0.2s ease-in-out;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    text-align: center;
   }
 
-  /* Form elements */
+  /* Input and form element wrapping */
   input, textarea, select {
-    transition: all 0.2s ease-in-out;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
   }
 
-  /* Table elements */
+  /* Table cell wrapping */
   td, th {
-    padding: var(--space-sm) var(--space-md);
-    vertical-align: middle;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 200px;
+    padding: 0.5rem;
   }
 
-  /* List elements */
+  /* List item wrapping */
   li {
-    margin-bottom: var(--space-xs);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
   }
 
-  /* Link elements */
+  /* Navigation link styling - ensure no underlines and prominent appearance */
   a {
-    transition: all 0.2s ease-in-out;
+    text-decoration: none;
+    color: inherit;
   }
 
-  /* Navigation links */
+  /* Make navigation links more prominent */
   nav a {
+    font-weight: 600;
     transition: all 0.2s ease-in-out;
   }
 
@@ -345,1037 +246,747 @@
     transform: translateY(-1px);
   }
 
-  /* Mobile optimizations */
+  /* Mobile-specific fixes for gradient text */
   @media (max-width: 640px) {
     .gradient-primary-text-animated {
-      background-size: 200% 200%;
-      animation: gradient-shift 3s ease infinite;
+      /* Ensure gradient animation works on mobile */
+      -webkit-text-fill-color: transparent !important;
+      background-clip: text !important;
+      -webkit-background-clip: text !important;
     }
   }
+}
 
-  /* Button styles */
+@layer components {
+  /* Reusable Component Classes */
+  
+  /* Button System */
   .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--border-radius);
-    font-weight: 600;
-    transition: all 0.2s ease-in-out;
-    cursor: pointer;
-    border: none;
-    outline: none;
-  }
-
-  .btn-primary {
-    background: var(--primary);
-    color: var(--primary-foreground);
-  }
-
-  .btn-secondary {
-    background: var(--secondary);
-    color: var(--secondary-foreground);
-  }
-
-  .btn-gradient {
-    background: var(--gradient-primary);
-    color: white;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .btn-gradient:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-  }
-
-  .btn-gradient,
-  .btn-gradient:focus,
-  .btn-gradient:active {
-    background: var(--gradient-primary);
-    background-size: 200% 200%;
-    animation: gradient-shift 3s ease infinite;
-  }
-
-  /* Mobile button optimizations */
-  @media (max-width: 768px) {
-    .btn-gradient:hover {
-      transform: none;
-      box-shadow: none;
-    }
-
-    .btn-gradient,
-    .btn-gradient:focus,
-    .btn-gradient:active {
-      animation: none;
-      background: var(--gradient-primary);
-    }
-  }
-
-  /* Layout utilities */
-  .text-center {
+    @apply font-semibold transition-all duration-300 rounded-xl;
+    padding: var(--button-padding-y) var(--button-padding-x);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
     text-align: center;
   }
-
-  .overflow-x-auto {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+  
+  .btn-primary {
+    @apply bg-white text-black hover:bg-gray-200 border border-gray-200;
   }
-
-  .overflow-x-auto * {
-    min-width: max-content;
+  
+  .btn-secondary {
+    @apply bg-black text-white hover:bg-gray-900 border border-gray-700;
   }
-
-  /* Accessibility improvements */
-  [role="button"], 
-  button, 
-  input[type="button"], 
-  input[type="submit"] {
-    cursor: pointer;
+  
+  .btn-gradient {
+    background: var(--gradient-primary);
+    background-size: 150% 150%;
+    background-position: 25% 25%;
+    color: white;
+    filter: blur(0px);
   }
-
-  /* Card styles */
+  
+  .btn-gradient:hover {
+    filter: blur(0px) brightness(1.1);
+    transform: translateY(-1px);
+  }
+  
+  /* Card System */
   .card {
-    background: var(--card);
-    border: 1px solid var(--border);
     border-radius: var(--border-radius);
     padding: var(--card-padding);
-    transition: all 0.2s ease-in-out;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
   }
-
+  
   .card-dark {
-    background: #080808;
-    border: 1px solid #1c1c1c;
-    backdrop-filter: blur(10px);
+    background-color: var(--card);
+    border: 1px solid var(--border);
   }
-
+  
   .card-white {
-    background: rgba(255, 255, 255, 0.95);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    color: #000;
+    background-color: var(--primary);
+    border: 1px solid #E5E5E5;
+    color: var(--primary-foreground);
   }
-
-  /* Badge styles */
+  
+  /* Badge System */
   .badge {
+    border-radius: 9999px;
+    font-size: var(--text-sm);
+    font-weight: 500;
     display: inline-flex;
     align-items: center;
     padding: var(--badge-padding-y) var(--badge-padding-x);
-    border-radius: 9999px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    transition: all 0.2s ease-in-out;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    text-align: center;
   }
-
+  
   .badge-gradient {
     background: var(--gradient-primary);
+    background-size: 150% 150%;
+    background-position: 25% 25%;
     color: white;
     border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
-
+  
   .badge-simple {
-    background: var(--secondary);
-    color: var(--secondary-foreground);
-    border: 1px solid var(--border);
-  }
-
+  @apply bg-white text-black border border-gray-200;
+}
+  
   .badge-dark {
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    @apply bg-black text-white border border-gray-600;
   }
-
-  /* Typography styles */
+  
+  /* Typography System */
   .text-hero {
-    font-size: clamp(2.5rem, 8vw, 4.5rem);
-    line-height: 1.1;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-  }
-
-  .text-heading {
-    font-size: clamp(2rem, 6vw, 3.5rem);
-    line-height: 1.2;
+    font-size: clamp(var(--text-4xl), 5vw, var(--text-7xl));
     font-weight: 700;
-    letter-spacing: -0.01em;
+    line-height: 1.2;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
-
+  
+  .text-heading {
+    font-size: clamp(var(--text-2xl), 3vw, var(--text-5xl));
+    font-weight: 700;
+    line-height: 1.2;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  
   .text-subheading {
-    font-size: clamp(1.25rem, 4vw, 2rem);
-    line-height: 1.4;
-    font-weight: 600;
-    letter-spacing: -0.005em;
+    font-size: clamp(var(--text-lg), 2vw, var(--text-2xl));
+    color: var(--muted-foreground);
+    line-height: 1.6;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
-
-  /* Gradient text effects */
+  
+  /* Gradient Text System */
   .gradient-text {
     background: var(--gradient-primary);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    font-size: inherit; /* Ensure font size is inherited */
-  }
-
-  /* Stable gradient text for headings (fixes mobile scaling/wrapping issues) */
-  .gradient-text-stable {
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    display: inline;
-    max-width: 100%;
-    white-space: normal;
-    overflow-wrap: normal;
-    word-break: normal;
-    line-height: inherit;
-    letter-spacing: inherit;
-  }
-
-  .gradient-text-animated {
-    background: var(--gradient-primary);
-    background-size: 200% 200%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: gradient-shift 3s ease infinite;
-    font-size: inherit; /* Ensure font size is inherited */
-  }
-
-  /* Section styles */
-  .section {
-    padding: var(--space-2xl) 0;
-  }
-
-  .container-narrow {
-    max-width: 768px;
-    margin: 0 auto;
-    padding: 0 var(--space-md);
-  }
-
-  .container-wide {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 var(--space-md);
-  }
-
-  /* Spacing utilities */
-  .space-y > * + * {
-    margin-top: var(--space-md);
-  }
-
-  .space-y-sm > * + * {
-    margin-top: var(--space-sm);
-  }
-
-  .space-y-lg > * + * {
-    margin-top: var(--space-lg);
-  }
-
-  /* Gradient utilities */
-  .gradient-primary {
-    background: var(--gradient-primary);
-  }
-
-  .gradient-primary-text {
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .gradient-primary-animated {
-    background: var(--gradient-primary);
-    background-size: 200% 200%;
-    animation: gradient-shift 3s ease infinite;
-  }
-
-  .gradient-primary-text-animated {
-    background: var(--gradient-primary);
-    background-size: 200% 200%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: gradient-shift 3s ease infinite;
-  }
-
-  .gradient-primary-text-zoomed {
-    background: var(--gradient-primary);
-    background-size: 300% 300%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: gradient-shift 2s ease infinite;
-  }
-
-  .gradient-primary-text-animated-zoomed {
-    background: var(--gradient-primary);
-    background-size: 300% 300%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: gradient-shift 2s ease infinite;
-  }
-
-  .gradient-primary-zoomed {
-    background: var(--gradient-primary);
-    background-size: 300% 300%;
-    animation: gradient-shift 2s ease infinite;
-  }
-
-  /* Gradient animation */
-  @keyframes gradient-shift {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
-
-  /* Button variants */
-  .btn-primary {
-    background: var(--primary);
-    color: var(--primary-foreground);
-    padding: var(--button-padding-y) var(--button-padding-x);
-    border-radius: var(--border-radius);
-    font-weight: 600;
-    transition: all 0.2s ease-in-out;
-  }
-
-  .btn-secondary {
-    background: var(--secondary);
-    color: var(--secondary-foreground);
-    padding: var(--button-padding-y) var(--button-padding-x);
-    border-radius: var(--border-radius);
-    font-weight: 600;
-    transition: all 0.2s ease-in-out;
-  }
-
-  .btn-gradient {
-    background: var(--gradient-primary);
-    color: white;
-    padding: var(--button-padding-y) var(--button-padding-x);
-    border-radius: var(--border-radius);
-    font-weight: 600;
-    transition: all 0.2s ease-in-out;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .btn-gradient:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-  }
-
-  .btn-gradient,
-  .btn-gradient:focus,
-  .btn-gradient:active {
-    background: var(--gradient-primary);
-    background-size: 200% 200%;
-    animation: gradient-shift 3s ease infinite;
-  }
-
-  /* Mobile optimizations */
-  @media (max-width: 768px) {
-    .btn-gradient:hover {
-      transform: none;
-      box-shadow: none;
-    }
-
-    .btn-gradient,
-    .btn-gradient:focus,
-    .btn-gradient:active {
-      animation: none;
-      background: var(--gradient-primary);
-    }
-  }
-
-  /* Card variants */
-  .card-dark {
-    background: #080808;
-    border: 1px solid #1c1c1c;
-    backdrop-filter: blur(10px);
-    border-radius: var(--border-radius-lg);
-    padding: var(--card-padding);
-    transition: all 0.2s ease-in-out;
-  }
-
-  .card-white {
-    background: rgba(255, 255, 255, 0.95);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    color: #000;
-    border-radius: var(--border-radius-lg);
-    padding: var(--card-padding);
-    transition: all 0.2s ease-in-out;
-  }
-
-  /* Badge variants */
-  .badge-gradient {
-    background: var(--gradient-primary);
-    color: white;
-    border: none;
-    padding: var(--badge-padding-y) var(--badge-padding-x);
-    border-radius: 9999px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    transition: all 0.2s ease-in-out;
-  }
-
-  .badge-simple {
-    background: var(--secondary);
-    color: var(--secondary-foreground);
-    border: 1px solid var(--border);
-    padding: var(--badge-padding-y) var(--badge-padding-x);
-    border-radius: 9999px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    transition: all 0.2s ease-in-out;
-  }
-
-  .badge-dark {
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: var(--badge-padding-y) var(--badge-padding-x);
-    border-radius: 9999px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    transition: all 0.2s ease-in-out;
-  }
-
-  /* Input styles */
-  .input-dark {
-    background: var(--input);
-    border: 1px solid var(--border);
-    color: var(--foreground);
-    padding: var(--space-sm) var(--space-md);
-    border-radius: var(--border-radius);
-    transition: all 0.2s ease-in-out;
-  }
-
-  .input-dark:focus {
-    border-color: var(--ring);
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
-  }
-
-  .input-light {
-    background: rgba(255, 255, 255, 0.95);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    color: #000;
-    padding: var(--space-sm) var(--space-md);
-    border-radius: var(--border-radius);
-    transition: all 0.2s ease-in-out;
-  }
-
-  .input-light:focus {
-    border-color: var(--ring);
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
-  }
-
-  /* Navbar styles */
-  .navbar-dark {
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(10px);
-  }
-
-  .navbar-light {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    color: #000;
-  }
-
-  /* Text color utilities */
-  .text-primary {
-    color: var(--primary);
-  }
-
-  .text-secondary {
-    color: var(--secondary-foreground);
-  }
-
-  .text-muted {
-    color: var(--muted-foreground);
-  }
-
-  /* Hover effects */
-  .hover-lift {
-    transition: all 0.2s ease-in-out;
-  }
-
-  .hover-lift:hover {
-    transform: translateY(-2px);
-  }
-
-  /* Scrollbar styling */
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.1);
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.3);
-  }
-
-  /* Mobile optimizations */
-  @media (max-width: 768px) {
-    .container {
-      padding: 0 var(--space-sm);
-    }
-
-    .text-wrap-mobile {
-      word-wrap: break-word;
-      overflow-wrap: break-word;
-      hyphens: auto;
-    }
-
-    .grid-responsive {
-      grid-template-columns: 1fr;
-    }
-
-    h1, h2, h3, h4, h5, h6 {
-      font-size: clamp(2rem, 7vw, 2.75rem);
-      line-height: 1.15;
-    }
-
-    p, span, div {
-      font-size: clamp(0.95rem, 3.2vw, 1.05rem);
-      line-height: 1.55;
-    }
-
-    /* Keep inline elements inside headings at the same scale */
-    h1 span, h1 strong, h1 em,
-    h2 span, h2 strong, h2 em,
-    h3 span, h3 strong, h3 em,
-    h4 span, h4 strong, h4 em,
-    h5 span, h5 strong, h5 em,
-    h6 span, h6 strong, h6 em {
-      font-size: inherit;
-      line-height: inherit;
-    }
-
-    .gradient-primary-text-animated,
-    .gradient-primary-text-zoomed,
-    .gradient-primary-text-animated-zoomed {
-      animation: none;
-      background: var(--gradient-primary);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    button, .btn-primary, .btn-secondary, .btn-gradient {
-      padding: var(--space-sm) var(--space-md);
-      font-size: 0.875rem;
-    }
-  }
-
-  /* Small mobile optimizations */
-  @media (max-width: 640px) {
-    .container {
-      padding: 0 var(--space-xs);
-    }
-
-    .stack-mobile {
-      flex-direction: column;
-    }
-
-    .stack-mobile > * {
-      margin-bottom: var(--space-sm);
-    }
-
-    h1, h2, h3, h4, h5, h6 {
-      font-size: clamp(1.75rem, 7.5vw, 2.25rem);
-      line-height: 1.15;
-    }
-
-    p, span, div {
-      font-size: clamp(0.95rem, 3.5vw, 1.05rem);
-      line-height: 1.55;
-    }
-
-    /* Keep inline elements inside headings at the same scale */
-    h1 span, h1 strong, h1 em,
-    h2 span, h2 strong, h2 em,
-    h3 span, h3 strong, h3 em,
-    h4 span, h4 strong, h4 em,
-    h5 span, h5 strong, h5 em,
-    h6 span, h6 strong, h6 em {
-      font-size: inherit;
-      line-height: inherit;
-    }
-
-    .gradient-primary-text-animated,
-    .gradient-primary-text-zoomed,
-    .gradient-primary-text-animated-zoomed {
-      animation: none;
-      background: var(--gradient-primary);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    * {
-      word-wrap: break-word;
-      overflow-wrap: break-word;
-    }
-  }
-
-  /* Pure color utilities */
-  .bg-pure-black {
-    background-color: #000000;
-  }
-
-  .bg-pure-white {
-    background-color: #FFFFFF;
-  }
-
-  .text-pure-black {
-    color: #000000;
-  }
-
-  .text-pure-white {
-    color: #FFFFFF;
-  }
-
-  /* Logo text styling */
-  .logo-text {
-    color: #FFFFFF;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-  }
-
-  /* Border utilities */
-  .border-light {
-    border-color: rgba(255, 255, 255, 0.1);
-  }
-
-  .border-dark {
-    border-color: rgba(0, 0, 0, 0.1);
-  }
-
-  /* Premium card glass effect */
-  .premium-card-glass {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  /* Responsive spacing utilities */
-  .space-responsive {
-    gap: clamp(1rem, 3vw, 2rem);
-  }
-
-  .p-responsive {
-    padding: clamp(1rem, 3vw, 2rem);
-  }
-
-  .m-responsive {
-    margin: clamp(1rem, 3vw, 2rem);
-  }
-
-  /* Responsive flex utilities */
-  .flex-responsive {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .flex-responsive > * {
-    margin-bottom: var(--space-md);
-  }
-
-  @media (min-width: 768px) {
-    .flex-responsive {
-      flex-direction: row;
-    }
-
-    .flex-responsive > * {
-      margin-bottom: 0;
-      margin-right: var(--space-md);
-    }
-  }
-
-  /* Responsive grid utilities */
-  .grid-responsive {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-md);
-  }
-
-  @media (min-width: 768px) {
-    .grid-responsive {
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    }
-  }
-
-  /* Text wrapping utilities */
-  .text-wrap-balance {
-    text-wrap: balance;
-  }
-
-  .text-wrap-pretty {
-    text-wrap: pretty;
-  }
-
-  /* Container utilities */
-  .container-responsive {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 clamp(1rem, 4vw, 2rem);
-  }
-
-  /* Aspect ratio utilities */
-  .aspect-square-responsive {
-    aspect-ratio: 1;
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-  }
-
-  /* Button responsive utilities */
-  .btn-responsive {
-    padding: clamp(0.75rem, 2vw, 1rem) clamp(1.5rem, 4vw, 2rem);
-    font-size: clamp(0.875rem, 2.5vw, 1rem);
-    border-radius: clamp(0.375rem, 1vw, 0.5rem);
-  }
-
-  /* Card responsive utilities */
-  .card-responsive {
-    padding: clamp(1rem, 3vw, 1.5rem);
-    border-radius: clamp(0.375rem, 1vw, 0.75rem);
-  }
-
-  /* Icon responsive utilities */
-  .icon-responsive {
-    width: clamp(1.25rem, 3vw, 1.5rem);
-    height: clamp(1.25rem, 3vw, 1.5rem);
-  }
-
-  /* Prevent layout shift */
-  .prevent-layout-shift {
-    min-height: 0;
-    min-width: 0;
-  }
-
-  /* Focus styles */
-  .focus-visible {
-    outline: 2px solid var(--ring);
-    outline-offset: 2px;
-  }
-
-  /* Loading skeleton */
-  .loading-skeleton {
-    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-    background-size: 200% 100%;
-    animation: loading 1.5s infinite;
-  }
-
-  @keyframes loading {
-    0% {
-      background-position: 200% 0;
-    }
-    100% {
-      background-position: -200% 0;
-    }
-  }
-
-  /* Text wrapping utilities */
-  .text-wrap-anywhere {
-    overflow-wrap: anywhere;
-  }
-
-  .text-wrap-normal {
-    overflow-wrap: normal;
-  }
-
-  .text-wrap-break-word {
+    word-wrap: break-word;
     overflow-wrap: break-word;
   }
-
-  /* Long word breaking */
-  .long-word-break {
-    word-break: break-all;
-  }
-
-  /* Overflow utilities */
-  .no-overflow {
-    overflow: hidden;
-  }
-
-  .overflow-hidden {
-    overflow: hidden;
-  }
-
-  .multi-line-overflow {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  /* Safe area utilities */
-  .pt-safe {
-    padding-top: env(safe-area-inset-top);
-  }
-
-  .pb-safe {
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-
-  .pl-safe {
-    padding-left: env(safe-area-inset-left);
-  }
-
-  .pr-safe {
-    padding-right: env(safe-area-inset-right);
-  }
-
-  /* Gradient text optimizations */
-  .gradient-primary-text-animated,
-  .gradient-primary-text-zoomed,
-  .gradient-primary-text-animated-zoomed {
+  
+  .gradient-text-animated {
     background: var(--gradient-primary);
-    background-size: 200% 200%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: gradient-shift 3s ease infinite;
-  }
-
-  .gradient-primary-text-animated-zoomed {
     background-size: 300% 300%;
-    animation: gradient-shift 2s ease infinite;
-  }
-
-  .gradient-primary-text,
-  .gradient-primary-text-animated,
-  .gradient-primary-text-zoomed,
-  .gradient-primary-text-animated-zoomed {
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  /* Mobile gradient text optimizations */
-  @media (max-width: 768px) {
-    .gradient-primary-text-animated,
-    .gradient-primary-text-zoomed,
-    .gradient-primary-text-animated-zoomed {
-      animation: none;
-      background: var(--gradient-primary);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-  }
-
-  @media (max-width: 640px) {
-    .gradient-primary-text-animated,
-    .gradient-primary-text-zoomed,
-    .gradient-primary-text-animated-zoomed {
-      animation: none;
-      background: var(--gradient-primary);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-  }
-
-  /* Reduced motion support */
-  @media (prefers-reduced-motion: reduce) {
-    .gradient-primary-text-animated,
-    .gradient-primary-text-zoomed,
-    .gradient-primary-text-animated-zoomed {
-      animation: none;
-      background: var(--gradient-primary);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-  }
-
-  /* Button gradient optimizations */
-  .btn-gradient {
-    background: var(--gradient-primary);
-    background-size: 200% 200%;
-    animation: gradient-shift 3s ease infinite;
-  }
-
-  .btn-gradient:hover {
-    background-size: 200% 200%;
-    animation: gradient-shift 2s ease infinite;
-  }
-
-  /* Gradient text animation */
-  .gradient-text-animated,
-  .gradient-primary-text-animated,
-  .gradient-primary-text-zoomed,
-  .gradient-primary-text-animated-zoomed {
-    background: var(--gradient-primary);
-    background-size: 200% 200%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     animation: gradient-shift 3s ease infinite;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
-
-  /* Badge hover effects */
-  .badge,
-  .badge-gradient,
-  .badge-simple,
-  .badge-dark {
-    transition: all 0.2s ease-in-out;
+  
+  /* Layout System */
+  .section {
+    padding: var(--space-2xl) var(--space-md);
   }
-
-  .badge:hover,
-  .badge-gradient:hover,
-  .badge-simple:hover,
-  .badge-dark:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  
+  .container-narrow {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-md);
   }
-
-  /* Line clamp utilities */
-  .line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+  
+  .container-wide {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 var(--space-md);
   }
-
-  .line-clamp-3 {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+  
+  /* Spacing Utilities */
+  .space-y > * + * {
+    margin-top: var(--space-lg);
   }
-
-  .line-clamp-4 {
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+  
+  .space-y-sm > * + * {
+    margin-top: var(--space-md);
   }
-
-  /* Mobile scroll optimizations */
-  @media (max-width: 640px) {
-    .snap-x {
-      scroll-snap-type: x mandatory;
-    }
-
-    .snap-center {
-      scroll-snap-align: center;
-    }
-
-    .scrollbar-hide {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-
-    .scrollbar-hide::-webkit-scrollbar {
-      display: none;
-    }
-  }
-
-  /* Gradient text final optimizations */
-  .gradient-text-animated,
-  .gradient-primary-text-animated,
-  .gradient-primary-text-zoomed,
-  .gradient-primary-text-animated-zoomed {
-    background: var(--gradient-primary);
-    background-size: 200% 200%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: gradient-shift 3s ease infinite;
-  }
-
-  /* Gradient text animation keyframes */
-  @keyframes gradient-shift {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
-
-  /* Gradient text animation with zoom */
-  @keyframes gradient-shift-zoomed {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
-
-  /* Scrollbar hiding utilities */
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* Reduced motion support for animations */
-  @media (prefers-reduced-motion: reduce) {
-    .scrollbar-hide {
-      scroll-behavior: auto;
-    }
-
-    .snap-x {
-      scroll-snap-type: none;
-    }
-
-    @keyframes slideIn {
-      from {
-        opacity: 1;
-        transform: none;
-      }
-      to {
-        opacity: 1;
-        transform: none;
-      }
-    }
-  }
-
-  /* Background gradient utilities */
-  .bg-gradient-primary {
-    background: var(--gradient-primary);
+  
+  .space-y-lg > * + * {
+    margin-top: var(--space-2xl);
   }
 }
 
-/* Enforce pill buttons globally except inside Discord Servers card */
-.discord-servers-card button,
-.discord-servers-card [role="button"] {
-  border-radius: 0.75rem !important; /* revert to rounded-xl inside the servers card */
+/* Primary Gradient System - Used selectively */
+.gradient-primary {
+  background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
+}
+
+.gradient-primary-text {
+  background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.gradient-primary-animated {
+  background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
+  background-size: 300% 300%;
+  animation: gradient-shift 3s ease infinite;
+}
+
+.gradient-primary-text-animated {
+  background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 3s ease infinite;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Zoomed gradient variants for better text accessibility */
+.gradient-primary-text-zoomed {
+  background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
+  background-size: 150% 150%;
+  background-position: 25% 25%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.gradient-primary-text-animated-zoomed {
+  background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
+  background-size: 150% 150%;
+  background-position: 25% 25%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 3s ease infinite;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.gradient-primary-zoomed {
+  background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
+  background-size: 150% 150%;
+  background-position: 25% 25%;
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Button Styles - Clean black and white with consistent rounding */
+.btn-primary {
+  @apply bg-white text-black font-semibold py-2 px-4 rounded-xl transition-all duration-300 hover:bg-gray-200 border border-gray-200;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  text-align: center;
+}
+
+.btn-secondary {
+  @apply bg-black text-white font-semibold py-2 px-4 rounded-xl transition-all duration-300 hover:bg-gray-900 border border-gray-600;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  text-align: center;
+}
+
+.btn-gradient {
+  background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
+  background-size: 150% 150%;
+  background-position: 25% 25%;
+  color: white;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  transition: all 0.3s ease;
+  filter: blur(0px);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  text-align: center;
+}
+
+.btn-gradient:hover {
+  filter: blur(0px) brightness(1.1);
+  transform: translateY(-1px);
+}
+
+/* Card Styles - Pure black and white */
+.card-dark {
+  background-color: #111111;
+  border: 1px solid #333333;
+  border-radius: 0.5rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+.card-white {
+  background-color: #FFFFFF;
+  border: 1px solid #E5E5E5;
+  border-radius: 0.5rem;
+  color: #000000;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+/* Badge Styles - Fixed premium badge gradient with better accessibility */
+.badge-gradient {
+  background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
+  background-size: 150% 150%;
+  background-position: 25% 25%;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  text-align: center;
+}
+
+.badge-simple {
+  @apply bg-white text-black px-3 py-1 rounded-full text-sm font-medium border border-gray-300;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  text-align: center;
+}
+
+.badge-dark {
+  @apply bg-black text-white px-3 py-1 rounded-full text-sm font-medium border border-gray-600;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  text-align: center;
+}
+
+/* Input Styles - Clean black and white */
+.input-dark {
+  background-color: #1A1A1A;
+  border: 1px solid #333333;
+  color: white;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+.input-dark:focus {
+  border-color: #FFFFFF;
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.2);
+}
+
+.input-light {
+  background-color: #FFFFFF;
+  border: 1px solid #E5E5E5;
+  color: #000000;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+.input-light:focus {
+  border-color: #000000;
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
+}
+
+/* Navbar Styles - Minimal black and white */
+.navbar-dark {
+  background-color: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #333333;
+}
+
+.navbar-light {
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #E5E5E5;
+}
+
+/* Text utilities */
+.text-primary {
+  color: #FFFFFF;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.text-secondary {
+  color: #A0A0A0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.text-muted {
+  color: #737373;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Hover effects */
+.hover-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1A1A1A;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333333;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #404040;
+}
+
+/* Responsive design improvements */
+@media (max-width: 768px) {
+  .gradient-primary-text-animated {
+    animation: none;
+  }
+  
+  /* Better mobile spacing */
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  /* Prevent text overflow on mobile */
+  .text-wrap-mobile {
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  /* Responsive grid adjustments */
+  .grid-responsive {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+
+  /* Mobile-specific text wrapping */
+  h1, h2, h3, h4, h5, h6 {
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: none;
+  }
+
+  p, span, div {
+    font-size: clamp(0.875rem, 3vw, 1rem);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  /* Exception for gradient text - preserve original sizing */
+  .gradient-primary-text-animated,
+  .gradient-text-animated,
+  .gradient-primary-text,
+  .gradient-text {
+    font-size: inherit !important;
+    line-height: inherit !important;
+    font-weight: inherit !important;
+  }
+
+  /* Button text wrapping on mobile */
+  button, .btn-primary, .btn-secondary, .btn-gradient {
+    font-size: clamp(0.875rem, 3vw, 1rem);
+    padding: clamp(0.5rem, 2vw, 1rem) clamp(1rem, 3vw, 2rem);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+@media (max-width: 640px) {
+  /* Even smaller mobile adjustments */
+  .container {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+  
+  /* Stack elements vertically on very small screens */
+  .stack-mobile {
+    flex-direction: column;
+  }
+  
+  .stack-mobile > * {
+    width: 100%;
+  }
+
+  /* Extra small screen text wrapping */
+  h1, h2, h3, h4, h5, h6 {
+    font-size: clamp(1.25rem, 4vw, 2rem);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: none;
+  }
+
+  p, span, div {
+    font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  /* Exception for gradient text - preserve original sizing */
+  .gradient-primary-text-animated,
+  .gradient-text-animated,
+  .gradient-primary-text,
+  .gradient-text {
+    font-size: inherit !important;
+    line-height: inherit !important;
+    font-weight: inherit !important;
+  }
+
+  /* Force text wrapping for very long words */
+  * {
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+}
+
+/* Pure color utilities */
+.bg-pure-black {
+  background-color: #000000;
+}
+
+.bg-pure-white {
+  background-color: #FFFFFF;
+}
+
+.text-pure-black {
+  color: #000000;
+}
+
+.text-pure-white {
+  color: #FFFFFF;
+}
+
+.logo-text {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 900;
+  font-size: 1.5rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: #FFFFFF;
+}
+
+.border-light {
+  border-color: #E5E5E5;
+}
+
+.border-dark {
+  border-color: #333333;
+}
+
+/* Premium card glass effect */
+.premium-card-glass {
+  background: rgba(17, 17, 17, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive spacing utilities */
+.space-responsive {
+  gap: clamp(1rem, 3vw, 2rem);
+}
+
+.p-responsive {
+  padding: clamp(1rem, 3vw, 2rem);
+}
+
+.m-responsive {
+  margin: clamp(1rem, 3vw, 2rem);
+}
+
+/* Flex utilities for better responsive behavior */
+.flex-responsive {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(0.5rem, 2vw, 1rem);
+}
+
+.flex-responsive > * {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Grid utilities for responsive layouts */
+.grid-responsive {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: clamp(1rem, 3vw, 2rem);
+}
+
+/* Text wrapping improvements */
+.text-wrap-balance {
+  text-wrap: balance;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.text-wrap-pretty {
+  text-wrap: pretty;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Container improvements */
+.container-responsive {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 4vw, 2rem);
+}
+
+/* Aspect ratio utilities for better scaling */
+.aspect-square-responsive {
+  aspect-ratio: 1;
+  width: clamp(200px, 30vw, 300px);
+  height: clamp(200px, 30vw, 300px);
+}
+
+/* Button responsive sizing */
+.btn-responsive {
+  padding: clamp(0.5rem, 2vw, 1rem) clamp(1rem, 3vw, 2rem);
+  font-size: clamp(0.875rem, 2vw, 1rem);
+  height: clamp(2.5rem, 6vw, 3rem);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  text-align: center;
+}
+
+/* Card responsive sizing */
+.card-responsive {
+  padding: clamp(1rem, 3vw, 2rem);
+  border-radius: clamp(0.5rem, 2vw, 1rem);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+/* Icon responsive sizing */
+.icon-responsive {
+  width: clamp(1rem, 3vw, 1.5rem);
+  height: clamp(1rem, 3vw, 1.5rem);
+}
+
+/* Prevent layout shift on mobile */
+.prevent-layout-shift {
+  min-height: 0;
+  min-width: 0;
+}
+
+/* Better focus states for accessibility */
+.focus-visible {
+  outline: 2px solid #FFFFFF;
+  outline-offset: 2px;
+}
+
+/* Loading states */
+.loading-skeleton {
+  background: linear-gradient(90deg, #1A1A1A 25%, #333333 50%, #1A1A1A 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Additional text wrapping utilities */
+.text-wrap-anywhere {
+  overflow-wrap: anywhere;
+  word-break: break-all;
+}
+
+.text-wrap-normal {
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.text-wrap-break-word {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Long word handling */
+.long-word-break {
+  word-break: break-all;
+  overflow-wrap: break-word;
+}
+
+/* Prevent text overflow in specific containers */
+.no-overflow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Multi-line text overflow */
+.multi-line-overflow {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Safe area padding for mobile browsers */
+.pt-safe {
+  padding-top: env(safe-area-inset-top, 1rem);
+}
+
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 1rem);
+}
+
+.pl-safe {
+  padding-left: env(safe-area-inset-left, 1rem);
+}
+
+.pr-safe {
+  padding-right: env(safe-area-inset-right, 1rem);
 }

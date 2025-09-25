@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Shield } from "lucide-react";
 
 const PrivacyPolicy: React.FC = () => {
@@ -14,6 +15,11 @@ const PrivacyPolicy: React.FC = () => {
       <div className="container mx-auto max-w-4xl">
         {/* Header */}
         <div className="text-center mb-16">
+          <Badge className="bg-gray-800 text-gray-300 px-3 py-1 text-sm font-medium mb-6 border border-gray-700 hover:bg-gray-800">
+            <Shield className="mr-2 h-3 w-3" />
+            Privacy & Security
+          </Badge>
+          
           <h1 className="text-hero text-white mb-6">
             Privacy Policy
           </h1>
@@ -25,7 +31,7 @@ const PrivacyPolicy: React.FC = () => {
         </div>
 
         {/* Content */}
-        <Card className="backdrop-blur-sm">
+        <Card className="bg-gray-900 border-gray-800 backdrop-blur-sm">
           <CardContent className="p-8 space-y-8">
             <section>
               <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6">1. Introduction</h2>
@@ -54,7 +60,7 @@ const PrivacyPolicy: React.FC = () => {
                     </p>
                     <ul className="list-disc pl-6 space-y-2 text-gray-300">
                       <li><strong className="text-white">Account Information:</strong> When you create an account, we collect your Discord username, user ID, avatar, and email address (if provided by Discord).</li>
-                      <li><strong className="text-white">Server Information:</strong> When you add our bot to your Discord server, we collect server names, IDs, and channel/role configurations.</li>
+                      <li><strong className="text-white">Server Information:</strong> When you add our bot to your Discord server, we collect server names, IDs, member counts, and channel/role configurations.</li>
                       <li><strong className="text-white">Payment Information:</strong> When you subscribe to our paid services, we collect billing information through our payment processors (such as Stripe).</li>
                       <li><strong className="text-white">Support Communications:</strong> When you contact us for support, we collect the information you provide in your communications.</li>
                       <li><strong className="text-white">Feedback and Surveys:</strong> We may collect information you provide in feedback forms or surveys.</li>
@@ -246,7 +252,7 @@ const PrivacyPolicy: React.FC = () => {
                 <div>
                   <h3 className="text-xl sm:text-2xl font-bold text-white mb-4">7.5 Exercising Your Rights</h3>
                   <p>
-                    To exercise any of these rights, please contact us at buildformeapp@gmail.com. We will respond to your request within 30 days.
+                    To exercise any of these rights, please contact us at privacy@buildforme.xyz. We will respond to your request within 30 days.
                   </p>
                 </div>
               </div>
@@ -260,7 +266,7 @@ const PrivacyPolicy: React.FC = () => {
                 </p>
                 <div className="bg-gray-800 p-4 rounded-lg">
                   <p className="text-white font-medium">BuildForMe Privacy Team</p>
-                  <p>Email: buildformeapp@gmail.com</p>
+                  <p>Email: privacy@buildforme.xyz</p>
                   <p>Website: https://buildforme.xyz</p>
                 </div>
                 <p>

@@ -2,9 +2,9 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 
-interface Subscription {
+interface SubscriptionData {
   subscribed: boolean;
-  subscription_status: string;
+  subscription_tier: string;
   subscription_end?: string;
 }
 
@@ -12,7 +12,7 @@ interface AuthContextType {
   user: User | null;
   session: Session | null;
   loading: boolean;
-  subscription: Subscription | null;
+  subscription: SubscriptionData | null;
   refreshSubscription: () => Promise<void>;
   signOut: () => Promise<void>;
   clearAuthState: () => void;
@@ -33,38 +33,36 @@ export const useAuth = () => {
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
-  const [subscription, setSubscription] = useState<Subscription | null>(null);
+  const [subscription, setSubscription] = useState<SubscriptionData | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const fetchSubscription = async (userId: string) => {
+  const checkSubscription = async (userSession: Session | null) => {
+    if (!userSession) {
+      setSubscription(null);
+      return;
+    }
+
     try {
-      const { data, error } = await supabase
-        .from('subscribers')
-        .select('subscription_status, subscription_end')
-        .eq('user_id', userId)
-        .single();
+      const { data, error } = await supabase.functions.invoke('check-subscription', {
+        headers: {
+          Authorization: `Bearer ${userSession.access_token}`,
+        },
+      });
 
-      if (error && error.code !== 'PGRST116') {
-        console.error('Error fetching subscription:', error);
-        setSubscription({ subscribed: false, subscription_status: 'inactive' });
-        return;
+      if (error) {
+        console.error('Error checking subscription:', error.message || error);
+        setSubscription({ subscribed: false, subscription_tier: 'free' });
+      } else {
+        setSubscription(data || { subscribed: false, subscription_tier: 'free' });
       }
-
-      const subscription = data ? {
-        subscribed: data.subscription_status === 'active',
-        subscription_status: data.subscription_status || 'inactive',
-        subscription_end: data.subscription_end,
-      } : { subscribed: false, subscription_status: 'inactive' };
-
-      setSubscription(subscription);
-    } catch (error) {
-      console.error('Error fetching subscription:', error);
-      setSubscription({ subscribed: false, subscription_status: 'inactive' });
+    } catch (error: any) {
+      console.error('Error checking subscription:', error.message || error);
+      setSubscription({ subscribed: false, subscription_tier: 'free' });
     }
   };
 
   const refreshSubscription = async () => {
-    await fetchSubscription(user?.id || '');
+    await checkSubscription(session);
   };
 
   useEffect(() => {
@@ -94,7 +92,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         
         if (event === 'SIGNED_IN' && session) {
           setTimeout(() => {
-            fetchSubscription(session.user.id);
+            checkSubscription(session);
           }, 0);
         } else if (event === 'SIGNED_OUT') {
           setSubscription(null);
@@ -110,7 +108,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setSession(session);
       setUser(session?.user ?? null);
       if (session) {
-        fetchSubscription(session.user.id);
+        checkSubscription(session);
       }
       setLoading(false);
     });
@@ -179,7 +177,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     
     // Clear Discord provider tokens
     localStorage.removeItem('discord_provider_token');
-    localStorage.removeItem('discord_provider_refresh_token');
+    localStorage.removeItem('discord_refresh_token');
     
     setUser(null);
     setSession(null);

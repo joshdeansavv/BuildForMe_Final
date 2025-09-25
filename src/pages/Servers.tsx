@@ -11,7 +11,6 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
-import { buildBotInviteUrl } from '@/lib/discord';
 
 export default function Servers() {
   const { guilds, loading, error, refetch } = useDiscordGuilds();
@@ -30,11 +29,18 @@ export default function Servers() {
       return;
     }
 
-    const inviteUrl = buildBotInviteUrl(clientId);
-    window.open(inviteUrl, '_blank', 'noopener');
+    const permissions = '8'; // Administrator permissions
+    const scope = 'bot%20applications.commands';
+    // Build the bot invite URL without redirect_uri (Discord bot invites don't support custom redirects)
+    const inviteUrl = `https://discord.com/oauth2/authorize?client_id=${clientId}&permissions=${permissions}&scope=${scope}`;
+    
+    // Open in new tab to prevent navigation issues
+    window.open(inviteUrl, '_blank');
+    
+    // Show success message
     toast({
       title: "Bot Invite Opened",
-      description: "Complete the bot invitation, then refresh this page to see your updated servers.",
+      description: "Complete the bot invitation in the new tab, then refresh this page to see your updated servers.",
     });
   };
 
@@ -126,8 +132,8 @@ export default function Servers() {
             <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
             Refresh
           </Button>
-              <Button onClick={handleInviteBot} className="btn-primary rounded-full !rounded-full h-9 px-4 text-sm">
-            <Plus className="h-4 w-4 mr-1" />
+          <Button onClick={handleInviteBot} className="btn-primary">
+            <Plus className="h-4 w-4" />
             Invite Bot
           </Button>
         </div>
@@ -221,8 +227,8 @@ export default function Servers() {
             {activeGuilds.map((guild) => {
               const enhancedGuild = {
                 ...guild,
-                bot_status: guild.bot_installed === true ? 'online' as const : 'not_installed' as const,
-                analytics: guild.bot_installed === true ? {
+                bot_status: guild.bot_installed ? 'online' as const : 'not_installed' as const,
+                analytics: guild.bot_installed ? {
                   total_channels: Math.floor(Math.random() * 50) + 10,
                   text_channels: Math.floor(Math.random() * 30) + 5,
                   voice_channels: Math.floor(Math.random() * 10) + 2,
@@ -260,8 +266,8 @@ export default function Servers() {
             {inactiveGuilds.map((guild) => {
               const enhancedGuild = {
                 ...guild,
-                bot_status: guild.bot_installed === true ? 'online' as const : 'not_installed' as const,
-                analytics: guild.bot_installed === true ? {
+                bot_status: guild.bot_installed ? 'online' as const : 'not_installed' as const,
+                analytics: guild.bot_installed ? {
                   total_channels: Math.floor(Math.random() * 30) + 5,
                   text_channels: Math.floor(Math.random() * 20) + 3,
                   voice_channels: Math.floor(Math.random() * 8) + 1,
@@ -299,7 +305,7 @@ export default function Servers() {
               <p className="text-muted mb-6 max-w-md mx-auto">
                 You need to be an administrator or have manage server permissions to see servers here.
               </p>
-                <Button onClick={handleInviteBot} className="btn-primary">
+              <Button onClick={handleInviteBot} className="btn-primary">
                 <Plus className="h-4 w-4 mr-2" />
                 Invite Bot to Server
               </Button>

@@ -40,7 +40,7 @@ export const EnhancedServerCard: React.FC<EnhancedServerCardProps> = ({
   const [isRemoveLoading, setIsRemoveLoading] = useState(false);
 
   // Determine bot status
-  const botStatus = guild.bot_status || (guild.bot_installed === true ? 'online' : 'not_installed');
+  const botStatus = guild.bot_status || (guild.bot_installed ? 'online' : 'not_installed');
   const hasBotInstalled = botStatus !== 'not_installed';
 
   // Get status color
@@ -86,8 +86,8 @@ export const EnhancedServerCard: React.FC<EnhancedServerCardProps> = ({
   return (
     <Card className={`transition-all duration-200 ${
       hasBotInstalled 
-        ? 'hover:bg-[#0b0b0b]' 
-        : 'opacity-95 hover:opacity-100'
+        ? 'bg-muted/10 border-border/30 hover:bg-muted/20' 
+        : 'bg-muted/5 border-border/20 opacity-70 hover:opacity-85'
     }`}>
       <CardContent className="p-4">
         <div className="flex items-start justify-between">
@@ -118,8 +118,8 @@ export const EnhancedServerCard: React.FC<EnhancedServerCardProps> = ({
               {/* Basic info - always visible */}
               <div className="flex items-center gap-3 text-sm text-muted mb-2">
                 <span className="flex items-center gap-1">
-                  <Crown className="h-3 w-3" />
-                  {guild.owner ? "Owner" : "Administrator"}
+                  <Users className="h-3 w-3" />
+                  {guild.member_count?.toLocaleString() || 0}
                 </span>
                 {hasBotInstalled && guild.analytics && (
                   <>
@@ -198,6 +198,7 @@ export const EnhancedServerCard: React.FC<EnhancedServerCardProps> = ({
                     size="sm"
                     variant="ghost"
                     onClick={() => {
+                      // Open analytics or detailed view
                       toast({
                         title: "Analytics",
                         description: "Detailed analytics coming soon!",
@@ -212,12 +213,12 @@ export const EnhancedServerCard: React.FC<EnhancedServerCardProps> = ({
               ) : (
                 <Button
                   size="sm"
+                  variant="ghost"
                   onClick={() => onInviteBot(guild.id)}
-                  className="h-8 px-3 rounded-full !rounded-full bg-gray-800/70 hover:bg-gray-800/90 text-gray-200 border border-gray-700/60 hover:border-gray-700/80 text-xs"
+                  className="h-8 w-8 p-0 text-green-400 hover:text-green-300"
                   title="Invite Bot"
                 >
-                  <Bot className="h-4 w-4 mr-1" />
-                  Add Bot
+                  <Bot className="h-4 w-4" />
                 </Button>
               )}
               

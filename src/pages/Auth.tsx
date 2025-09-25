@@ -134,7 +134,7 @@ const Auth = () => {
             <Button 
               onClick={handleDiscordLogin}
               disabled={loading}
-              className="w-full text-base font-semibold rounded-full py-3 flex items-center justify-center shadow-lg hover:shadow-xl transition-all bg-gray-900/60 hover:bg-gray-900/80 text-white border border-gray-800"
+              className="btn btn-gradient w-full text-base font-semibold rounded-lg py-3 flex items-center justify-center shadow-lg hover:shadow-xl transition-all"
               size="lg"
             >
               <svg className="mr-2 w-5 h-5" viewBox="0 0 71 55" fill="currentColor">

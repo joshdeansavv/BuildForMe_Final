@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { RotateCcw } from "lucide-react";
 
 const ReturnPolicy: React.FC = () => {
@@ -14,6 +15,11 @@ const ReturnPolicy: React.FC = () => {
       <div className="container mx-auto max-w-4xl">
         {/* Header */}
         <div className="text-center mb-16">
+          <Badge className="bg-gray-800 text-gray-300 px-3 py-1 text-sm font-medium mb-6 border border-gray-700 hover:bg-gray-800">
+            <RotateCcw className="mr-2 h-3 w-3" />
+            Return Policy
+          </Badge>
+          
           <h1 className="text-hero text-white mb-6">
             Return & Refund Policy
           </h1>
@@ -25,7 +31,7 @@ const ReturnPolicy: React.FC = () => {
         </div>
 
         {/* Content */}
-        <Card className="backdrop-blur-sm">
+        <Card className="bg-gray-900 border-gray-800 backdrop-blur-sm">
           <CardContent className="p-8 space-y-8">
             <section>
               <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6">1. Policy Overview</h2>

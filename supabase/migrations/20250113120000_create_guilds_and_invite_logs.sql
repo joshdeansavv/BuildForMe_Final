@@ -98,7 +98,6 @@ CREATE POLICY "Users can update their own premium servers" ON premium_servers
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
 BEGIN
-  SET search_path = public;
   NEW.updated_at = NOW();
   RETURN NEW;
 END;
@@ -129,7 +128,6 @@ RETURNS TEXT AS $$
 DECLARE
   subscription_status TEXT;
 BEGIN
-  SET search_path = public;
   -- Check if server has an active subscription in premium_servers table
   SELECT status INTO subscription_status
   FROM premium_servers

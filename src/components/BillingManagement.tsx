@@ -185,7 +185,7 @@ export const BillingManagement: React.FC<BillingManagementProps> = ({ className 
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-gray-400">Plan</span>
-                <Badge className={`${currentPlan?.badgeClass} border cursor-default`}>
+                <Badge className={`${currentPlan?.badgeClass} border`}>
                   {currentPlan?.plan}
                 </Badge>
               </div>
@@ -212,8 +212,7 @@ export const BillingManagement: React.FC<BillingManagementProps> = ({ className 
                 <Button 
                   onClick={handleManageBilling}
                   disabled={billingLoading}
-                  variant="neutral"
-                  className="w-full h-12 font-semibold"
+                  className="w-full btn-gradient h-12 font-semibold"
                 >
                   {billingLoading ? (
                     <>
@@ -230,8 +229,7 @@ export const BillingManagement: React.FC<BillingManagementProps> = ({ className 
               ) : (
                 <Button 
                   asChild
-                  variant="neutral"
-                  className="w-full h-12 font-semibold"
+                  className="w-full btn-gradient h-12 font-semibold"
                 >
                   <Link to="/pricing">
                     <Crown className="mr-2 h-4 w-4" />

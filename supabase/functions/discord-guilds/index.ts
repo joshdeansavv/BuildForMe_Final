@@ -166,12 +166,10 @@ serve(async (req) => {
             } else {
               logStep("⚠️ Bot not in guild or no permissions", { guildId: guild.id, status: botGuildResponse.status });
               // Bot is not in the guild or doesn't have permissions
-              detailedGuild.bot_installed = false;
               detailedGuild.bot_status = 'not_installed' as const;
             }
           } catch (error) {
             logStep("⚠️ Could not fetch bot guild data", { guildId: guild.id, error: error.message });
-            detailedGuild.bot_installed = false;
             detailedGuild.bot_status = 'not_installed' as const;
           }
         } else {

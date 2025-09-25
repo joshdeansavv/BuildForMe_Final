@@ -1,183 +1,152 @@
-# Supabase CLI
+# BuildForMe Discord Bot
 
-[![Coverage Status](https://coveralls.io/repos/github/supabase/cli/badge.svg?branch=main)](https://coveralls.io/github/supabase/cli?branch=main) [![Bitbucket Pipelines](https://img.shields.io/bitbucket/pipelines/supabase-cli/setup-cli/master?style=flat-square&label=Bitbucket%20Canary)](https://bitbucket.org/supabase-cli/setup-cli/pipelines) [![Gitlab Pipeline Status](https://img.shields.io/gitlab/pipeline-status/sweatybridge%2Fsetup-cli?label=Gitlab%20Canary)
-](https://gitlab.com/sweatybridge/setup-cli/-/pipelines)
+A modern Discord bot that helps users build and manage projects with AI assistance. This repository contains both the bot implementation and the official website.
 
-[Supabase](https://supabase.io) is an open source Firebase alternative. We're building the features of Firebase using enterprise-grade open source tools.
+## 🚀 Features
 
-This repository contains all the functionality for Supabase CLI.
+- **AI-Powered Project Building**: Get intelligent assistance for your development projects
+- **Discord Integration**: Seamless interaction through Discord commands
+- **Modern Web Interface**: Beautiful, responsive website with gradient animations
+- **Real-time Updates**: Live status and project tracking
 
-- [x] Running Supabase locally
-- [x] Managing database migrations
-- [x] Creating and deploying Supabase Functions
-- [x] Generating types directly from your database schema
-- [x] Making authenticated HTTP requests to [Management API](https://supabase.com/docs/reference/api/introduction)
+## 📁 Project Structure
 
-## Getting started
+```
+buildforme/
+├── src/                    # React frontend source code
+├── bot/                    # Discord bot implementation
+│   ├── professional_builder_bot.py
+│   ├── requirements.txt
+│   └── start_bot.sh
+├── docs/                   # Documentation and guides
+│   ├── AUTHENTICATION_GUIDE.md
+│   ├── GRADIENT_SYSTEM.md
+│   ├── MODERNIZATION_GUIDE.md
+│   └── RESPONSIVE_IMPROVEMENTS.md
+├── scripts/                # Deployment and utility scripts
+│   ├── auto-deploy.sh
+│   ├── deploy.sh
+│   └── update.sh
+├── supabase/               # Database and backend configuration
+└── public/                 # Static assets
+```
 
-### Install the CLI
+## 🛠️ Tech Stack
 
-Available via [NPM](https://www.npmjs.com) as dev dependency. To install:
+### Frontend
+- **React 18** with TypeScript
+- **Vite** for build tooling
+- **Tailwind CSS** for styling
+- **Framer Motion** for animations
+- **React Router** for navigation
 
+### Backend
+- **Supabase** for database and authentication
+- **Python** for Discord bot
+- **Discord.py** for bot framework
+
+### Deployment
+- **Vercel** for frontend hosting
+- **Nginx** for reverse proxy
+- **GitHub Actions** for CI/CD
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 18+ and npm/bun
+- Python 3.8+
+- Discord Bot Token
+- Supabase Project
+
+### Frontend Development
 ```bash
-npm i supabase --save-dev
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
 ```
 
-To install the beta release channel:
-
+### Bot Setup
 ```bash
-npm i supabase@beta --save-dev
+# Navigate to bot directory
+cd bot
+
+# Install Python dependencies
+pip install -r requirements.txt
+
+# Set up environment variables
+cp ../env_template.txt .env
+# Edit .env with your Discord bot token and other configs
+
+# Start the bot
+./start_bot.sh
 ```
 
-When installing with yarn 4, you need to disable experimental fetch with the following nodejs config.
-
-```
-NODE_OPTIONS=--no-experimental-fetch yarn add supabase
-```
-
-> **Note**
-For Bun versions below v1.0.17, you must add `supabase` as a [trusted dependency](https://bun.sh/guides/install/trusted) before running `bun add -D supabase`.
-
-<details>
-  <summary><b>macOS</b></summary>
-
-  Available via [Homebrew](https://brew.sh). To install:
-
-  ```sh
-  brew install supabase/tap/supabase
-  ```
-
-  To install the beta release channel:
-  
-  ```sh
-  brew install supabase/tap/supabase-beta
-  brew link --overwrite supabase-beta
-  ```
-  
-  To upgrade:
-
-  ```sh
-  brew upgrade supabase
-  ```
-</details>
-
-<details>
-  <summary><b>Windows</b></summary>
-
-  Available via [Scoop](https://scoop.sh). To install:
-
-  ```powershell
-  scoop bucket add supabase https://github.com/supabase/scoop-bucket.git
-  scoop install supabase
-  ```
-
-  To upgrade:
-
-  ```powershell
-  scoop update supabase
-  ```
-</details>
-
-<details>
-  <summary><b>Linux</b></summary>
-
-  Available via [Homebrew](https://brew.sh) and Linux packages.
-
-  #### via Homebrew
-
-  To install:
-
-  ```sh
-  brew install supabase/tap/supabase
-  ```
-
-  To upgrade:
-
-  ```sh
-  brew upgrade supabase
-  ```
-
-  #### via Linux packages
-
-  Linux packages are provided in [Releases](https://github.com/supabase/cli/releases). To install, download the `.apk`/`.deb`/`.rpm`/`.pkg.tar.zst` file depending on your package manager and run the respective commands.
-
-  ```sh
-  sudo apk add --allow-untrusted <...>.apk
-  ```
-
-  ```sh
-  sudo dpkg -i <...>.deb
-  ```
-
-  ```sh
-  sudo rpm -i <...>.rpm
-  ```
-
-  ```sh
-  sudo pacman -U <...>.pkg.tar.zst
-  ```
-</details>
-
-<details>
-  <summary><b>Other Platforms</b></summary>
-
-  You can also install the CLI via [go modules](https://go.dev/ref/mod#go-install) without the help of package managers.
-
-  ```sh
-  go install github.com/supabase/cli@latest
-  ```
-
-  Add a symlink to the binary in `$PATH` for easier access:
-
-  ```sh
-  ln -s "$(go env GOPATH)/bin/cli" /usr/bin/supabase
-  ```
-
-  This works on other non-standard Linux distros.
-</details>
-
-<details>
-  <summary><b>Community Maintained Packages</b></summary>
-
-  Available via [pkgx](https://pkgx.sh/). Package script [here](https://github.com/pkgxdev/pantry/blob/main/projects/supabase.com/cli/package.yml).
-  To install in your working directory:
-
-  ```bash
-  pkgx install supabase
-  ```
-
-  Available via [Nixpkgs](https://nixos.org/). Package script [here](https://github.com/NixOS/nixpkgs/blob/master/pkgs/development/tools/supabase-cli/default.nix).
-</details>
-
-### Run the CLI
-
+### Environment Variables
+Create a `.env` file based on `env_template.txt`:
 ```bash
-supabase bootstrap
+# Discord Bot
+DISCORD_TOKEN=your_discord_bot_token
+DISCORD_CLIENT_ID=your_client_id
+
+# Supabase
+SUPABASE_URL=your_supabase_url
+SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+
+# Other
+OPENAI_API_KEY=your_openai_api_key
 ```
 
-Or using npx:
+## 📚 Documentation
 
+- [Authentication Guide](docs/AUTHENTICATION_GUIDE.md) - User authentication flow
+- [Gradient System](docs/GRADIENT_SYSTEM.md) - UI gradient implementation
+- [Modernization Guide](docs/MODERNIZATION_GUIDE.md) - Code modernization details
+- [Responsive Improvements](docs/RESPONSIVE_IMPROVEMENTS.md) - Mobile optimization
+
+## 🚀 Deployment
+
+### Frontend (Vercel)
 ```bash
-npx supabase bootstrap
+# Deploy to Vercel
+npm run build
+vercel --prod
 ```
 
-The bootstrap command will guide you through the process of setting up a Supabase project using one of the [starter](https://github.com/supabase-community/supabase-samples/blob/main/samples.json) templates.
-
-## Docs
-
-Command & config reference can be found [here](https://supabase.com/docs/reference/cli/about).
-
-## Breaking changes
-
-We follow semantic versioning for changes that directly impact CLI commands, flags, and configurations.
-
-However, due to dependencies on other service images, we cannot guarantee that schema migrations, seed.sql, and generated types will always work for the same CLI major version. If you need such guarantees, we encourage you to pin a specific version of CLI in package.json.
-
-## Developing
-
-To run from source:
-
-```sh
-# Go >= 1.22
-go run . help
+### Bot (Server)
+```bash
+# Use the deployment script
+./scripts/deploy.sh
 ```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🆘 Support
+
+- **Discord**: Join our Discord server for support
+- **Issues**: Report bugs and feature requests on GitHub
+- **Documentation**: Check the [docs/](docs/) directory for detailed guides
+
+## 🔄 Recent Updates
+
+- ✅ Unified hero section styling across all pages
+- ✅ Improved mobile responsiveness
+- ✅ Added keyboard accessibility
+- ✅ Cleaned up project structure
+- ✅ Enhanced gradient animations
+- ✅ Optimized deployment scripts

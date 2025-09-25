@@ -12,15 +12,14 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import DashboardHome from "./pages/DashboardHome";
+import Servers from "./pages/Servers";
+import Billing from "./pages/Billing";
 import Pricing from "./pages/Pricing";
-// import CommandsPage from "./pages/Documentation";
 import NotFound from "./pages/NotFound";
 import TermsOfService from "./pages/TermsOfService";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ReturnPolicy from "./pages/ReturnPolicy";
 import Support from "./pages/Support";
-import Commands from "./pages/Commands";
-import About from "./pages/About";
 import { useEffect } from "react";
 import "@/lib/env"; // Import environment validation
 
@@ -30,16 +29,15 @@ const queryClient = new QueryClient();
 const DocumentTitle = () => {
   const location = useLocation();
 
-    useEffect(() => {
+  useEffect(() => {
     const titles: Record<string, string> = {
       '/': 'BuildForMe - Premium Discord Bot Dashboard',
       '/auth': 'Sign In - BuildForMe',
       '/dashboard': 'Dashboard - BuildForMe',
+      '/servers': 'Servers - BuildForMe',
+      '/billing': 'Billing - BuildForMe',
       '/pricing': 'Pricing - BuildForMe',
-        // Keep legacy path pointing to same title, but we route to /commands below
-        '/documentation': 'Commands - BuildForMe',
       '/support': 'Support - BuildForMe',
-      '/commands': 'Commands - BuildForMe',
     };
 
     const title = titles[location.pathname] || 'BuildForMe';
@@ -55,10 +53,9 @@ const DocumentTitle = () => {
 // Main layout component
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="min-h-screen bg-pure-black text-foreground flex flex-col">
+    <div className="min-h-screen bg-pure-black text-foreground">
       <Navbar />
-      {/* Account for fixed header height */}
-      <main className="flex-1 pt-16 sm:pt-20">
+      <main className="min-h-screen">
         {children}
       </main>
       <Footer />
@@ -107,12 +104,6 @@ const App = () => (
                 <Pricing />
               </MainLayout>
             } />
-            <Route path="/about" element={
-              <MainLayout>
-                <About />
-              </MainLayout>
-            } />
-
             <Route path="/auth" element={
               <PublicRoute>
                 <NoNavLayout>
@@ -142,12 +133,6 @@ const App = () => (
                 <Support />
               </MainLayout>
             } />
-            <Route path="/commands" element={
-              <MainLayout>
-                <Commands />
-              </MainLayout>
-            } />
-            <Route path="/documentation" element={<Navigate to="/commands" replace />} />
 
             {/* Protected Dashboard Routes */}
             <Route path="/dashboard" element={
@@ -157,6 +142,24 @@ const App = () => (
                     <ErrorBoundary>
                     <DashboardHome />
                     </ErrorBoundary>
+                  </div>
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/servers" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                    <Servers />
+                  </div>
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/billing" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                    <Billing />
                   </div>
                 </MainLayout>
               </ProtectedRoute>

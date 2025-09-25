@@ -9,7 +9,7 @@ export interface Guild {
   icon: string | null;
   icon_url: string | null;
   owner: boolean;
-  permissions: number | string;
+  permissions: string;
   features: string[];
   member_count: number;
   subscription_status: string;
@@ -39,32 +39,24 @@ export const useDiscordGuilds = () => {
   const { user, session } = useAuth();
   const { toast } = useToast();
   
-  // Performance optimizations
+  // Prevent multiple concurrent requests
   const isFetchingRef = useRef(false);
-  const lastFetchRef = useRef<number>(0);
-  const CACHE_DURATION = 2 * 60 * 1000; // Reduced to 2 minutes for faster updates
+  const retryCountRef = useRef(0);
+  const maxRetries = 3;
 
   // Ensure guilds is always an array
   const safeGuilds = Array.isArray(guilds) ? guilds : [];
 
-  const fetchGuilds = useCallback(async (showToast = false, forceRefresh = false) => {
-    if (!user?.id || !session?.access_token) {
+  const fetchGuilds = useCallback(async (showToast = false) => {
+    if (!user || !session) {
       setGuilds([]);
       setLoading(false);
       return;
     }
 
-    // Prevent concurrent requests
+    // Prevent multiple concurrent requests
     if (isFetchingRef.current) {
       console.log('Discord guilds fetch already in progress, skipping');
-      return;
-    }
-
-    // Check cache unless forcing refresh
-    const now = Date.now();
-    if (!forceRefresh && now - lastFetchRef.current < CACHE_DURATION && guilds.length > 0) {
-      console.log('Using cached Discord guilds data');
-      setLoading(false);
       return;
     }
 
@@ -79,8 +71,7 @@ export const useDiscordGuilds = () => {
       console.log('Fetching Discord guilds...', { 
         hasToken: !!discordProviderToken,
         userId: user.id,
-        forceRefresh,
-        cacheAge: now - lastFetchRef.current
+        attempt: retryCountRef.current + 1
       });
 
       const { data, error: fetchError } = await supabase.functions.invoke('discord-guilds', {
@@ -109,14 +100,27 @@ export const useDiscordGuilds = () => {
       
       console.log('Discord guilds fetched successfully:', { count: guildsData.length });
       setGuilds(guildsData);
-      lastFetchRef.current = now;
+      retryCountRef.current = 0; // Reset retry count on success
       
     } catch (err: any) {
       console.error('Error fetching Discord guilds:', err);
       setError(err.message || 'Failed to load Discord servers');
       setGuilds([]); // Ensure we always have an empty array on error
       
-      // Show toast notification for errors
+      // Retry logic for transient errors
+      if (retryCountRef.current < maxRetries && err.message?.includes('non-2xx status code')) {
+        retryCountRef.current++;
+        console.log(`Retrying Discord guilds fetch (attempt ${retryCountRef.current + 1}/${maxRetries + 1})`);
+        
+        // Exponential backoff
+        setTimeout(() => {
+          fetchGuilds(false);
+        }, Math.pow(2, retryCountRef.current) * 1000);
+        
+        return; // Don't show toast or set loading to false during retry
+      }
+      
+      // Show toast notification for persistent errors
       if (showToast) {
         toast({
           title: "Error Loading Servers",
@@ -124,26 +128,32 @@ export const useDiscordGuilds = () => {
           variant: "destructive",
         });
       }
+      
+      retryCountRef.current = 0; // Reset retry count after max retries
     } finally {
       isFetchingRef.current = false;
       setLoading(false);
     }
-  }, [user?.id, session?.access_token, toast, guilds.length]); // Include guilds.length to prevent stale closures
+  }, [user, session, toast]);
 
-  // Optimized effect with stable dependencies
+  // Fetch guilds when user/session changes, but with a delay to ensure token is available
   useEffect(() => {
-    if (!user?.id || !session?.access_token) {
+    if (!user || !session) {
       setGuilds([]);
       setLoading(false);
       return;
     }
 
-    // Immediate fetch without delay for better perceived performance
-    fetchGuilds(false, false);
-  }, [user?.id, session?.access_token, fetchGuilds]);
+    // Add a small delay to ensure Discord token is stored in localStorage
+    const timer = setTimeout(() => {
+      fetchGuilds(false);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [user, session, fetchGuilds]);
 
   const refetch = useCallback(() => {
-    fetchGuilds(true, true); // Force refresh and show toast
+    fetchGuilds(true);
   }, [fetchGuilds]);
 
   return {

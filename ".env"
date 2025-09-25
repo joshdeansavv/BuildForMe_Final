@@ -1,0 +1,12 @@
+# Supabase Configuration
+VITE_SUPABASE_URL=https://ewzebkfumdevcdwhhdnm.supabase.co
+VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV3emVia2Z1bWRldmNkd2hoZG5tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIyMjExOTIsImV4cCI6MjA2Nzc5NzE5Mn0.iDauM37JpTJbx8TXNDW_7pjl9gTT7JcM2dNCkI7cv0U
+
+# Discord Configuration
+VITE_DISCORD_CLIENT_ID=1391912825534025879
+
+# Stripe Configuration
+VITE_STRIPE_AI_PREMIUM_PRICE_ID=price_1QSdLGKTKyaVp6Y5MejAyPUO
+
+# Environment
+NODE_ENV=production 

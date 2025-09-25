@@ -27,10 +27,7 @@ import {
   CheckCircle2,
   ArrowUpRight,
   Sparkles as SparklesIcon,
-  Rocket,
-  ArrowDown,
-  CheckCircle,
-  User
+  Rocket
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -41,8 +38,6 @@ const Pricing = () => {
   const { user, session, subscription, refreshSubscription } = useAuth();
   const { toast } = useToast();
   const [billingLoading, setBillingLoading] = useState(false);
-  const [downgradeLoading, setDowngradeLoading] = useState(false);
-  const [upgradeLoading, setUpgradeLoading] = useState(false);
 
   // Check for success/canceled parameters from Stripe
   useEffect(() => {
@@ -113,333 +108,271 @@ const Pricing = () => {
     }
   };
 
-  const handleDowngrade = async () => {
-    if (!user || !session) {
-      toast({
-        title: "Authentication Required",
-        description: "Please log in to downgrade your subscription.",
-      });
-      return;
-    }
 
-    setDowngradeLoading(true);
-
-    try {
-      const response = await supabase.functions.invoke('stripe-downgrade', {
-        body: {
-          return_url: `${window.location.origin}/pricing`,
-        },
-        headers: {
-          Authorization: `Bearer ${session.access_token}`,
-        },
-      });
-
-      if (response.error) {
-        throw new Error(response.error.message || 'Failed to downgrade subscription');
-      }
-
-      const { url } = response.data;
-      window.location.href = url;
-
-    } catch (error: any) {
-      console.error('Error downgrading subscription:', error.message || error);
-      toast({
-        title: "Error",
-        description: error.message || "Failed to downgrade subscription. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setDowngradeLoading(false);
-    }
-  };
-
-  const handleUpgrade = async () => {
-    if (!user || !session) {
-      toast({
-        title: "Authentication Required",
-        description: "Please log in to upgrade your subscription.",
-      });
-      return;
-    }
-
-    setUpgradeLoading(true);
-
-    try {
-      const response = await supabase.functions.invoke('stripe-upgrade', {
-        body: {
-          return_url: `${window.location.origin}/pricing`,
-        },
-        headers: {
-          Authorization: `Bearer ${session.access_token}`,
-        },
-      });
-
-      if (response.error) {
-        throw new Error(response.error.message || 'Failed to upgrade subscription');
-      }
-
-      const { url } = response.data;
-      window.location.href = url;
-
-    } catch (error: any) {
-      console.error('Error upgrading subscription:', error.message || error);
-      toast({
-        title: "Error",
-        description: error.message || "Failed to upgrade subscription. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setUpgradeLoading(false);
-    }
-  };
 
   const getButtonForPlan = (planName: string) => {
+    const isSubscribed = subscription?.subscribed;
+    const currentTier = subscription?.subscription_tier || 'free';
+    
+    // User is not logged in
     if (!user) {
       if (planName === "Free") {
-          return (
-            <Button asChild variant="neutral" className="w-full transition-all duration-200 hover:scale-105">
+        return (
+          <Button asChild className="bg-white text-black hover:bg-gray-200 font-bold py-3">
             <Link to="/auth">
-              <User className="w-4 h-4 mr-2 text-white" />
-              Get Started
+              Get Started Free
+              <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>
         );
-      } else if (planName === "Premium") {
-          return (
-            <Button asChild variant="neutral" className="w-full transition-all duration-200 hover:scale-105">
+      } else {
+        return (
+          <Button asChild className="btn-gradient font-bold py-3">
             <Link to="/auth">
-              <Crown className="w-4 h-4 mr-2 text-white" />
-              Upgrade to Premium
+              Upgrade Now
+              <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>
         );
       }
     }
 
-    const isPremium = subscription?.subscription_status === 'active';
-
+    // User is logged in
     if (planName === "Free") {
-      if (!isPremium) {
+      if (currentTier === 'free') {
         return (
-          <Button disabled className="w-full bg-gray-800/60 text-gray-400 cursor-not-allowed border border-gray-700 rounded-full">
-            <CheckCircle className="w-4 h-4 mr-2" />
-            Current Plan
+          <Button className="bg-gray-700 text-gray-300 cursor-not-allowed font-bold py-3" disabled>
+            <Check className="mr-2 h-4 w-4" />
+            You're on this plan
           </Button>
         );
       } else {
         return (
           <Button 
-            onClick={() => handleDowngrade()} 
-            disabled={downgradeLoading}
-            className="w-full bg-red-900/60 hover:bg-red-900/80 text-white border border-red-800 rounded-full transition-all duration-200 hover:scale-105"
+            asChild
+            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3"
           >
-            {downgradeLoading ? (
-              <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Downgrading...
-              </>
-            ) : (
-              <>
-                <ArrowDown className="w-4 h-4 mr-2" />
-                Downgrade to Free
-              </>
-            )}
+            <Link to="/dashboard">
+              <Settings className="mr-2 h-4 w-4" />
+              Manage Subscription
+            </Link>
           </Button>
         );
       }
     } else if (planName === "Premium") {
-      if (isPremium) {
+      if (currentTier === 'pro' || currentTier === 'premium') {
         return (
-          <Button disabled className="w-full bg-gray-800/60 text-gray-400 cursor-not-allowed border border-gray-700 rounded-full">
-            <CheckCircle className="w-4 h-4 mr-2" />
-            Current Plan
+          <Button className="bg-gray-700 text-gray-300 cursor-not-allowed font-bold py-3" disabled>
+            <Check className="mr-2 h-4 w-4" />
+            You're on this plan
           </Button>
         );
       } else {
         return (
-          <Button 
-            onClick={() => handleUpgrade()} 
-            disabled={upgradeLoading}
-            className="w-full rounded-full transition-all duration-200 hover:scale-105" variant="neutral"
-          >
-            {upgradeLoading ? (
-              <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Upgrading...
-              </>
-            ) : (
-              <>
-                <Crown className="w-4 h-4 mr-2" />
-                Upgrade to Premium
-              </>
-            )}
+          <Button asChild className="btn-gradient font-bold py-3">
+            <Link to="/dashboard">
+              Upgrade to Premium
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
           </Button>
         );
       }
     }
 
-    return null;
+    // Fallback
+    return (
+      <Button asChild className="btn-gradient font-bold py-3">
+        <Link to="/dashboard">
+          Get Started
+          <ArrowRight className="ml-2 h-4 w-4" />
+        </Link>
+      </Button>
+    );
   };
 
   return (
-    <div className="min-h-screen bg-pure-black relative overflow-hidden">
+    <div className="min-h-screen bg-pure-black py-16 px-4">
+      <div className="container mx-auto max-w-6xl">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <Badge className="bg-gray-800 text-gray-300 px-3 py-1 text-sm font-medium mb-6 border border-gray-700 cursor-default">
+            <SparklesIcon className="mr-2 h-3 w-3" />
+            Simple Pricing
+          </Badge>
+          
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6 tracking-tight leading-tight">
+            Choose Your <span className="gradient-text-animated">Subscription</span>
+          </h1>
+          
+          <div className="max-w-3xl mx-auto">
+            <p className="text-lg sm:text-xl md:text-2xl text-gray-400 mb-8">
+              Start free and upgrade when you're ready. No hidden fees, no setup costs. 
+              Cancel anytime.
+            </p>
 
-
-      {/* Main content wrapper */}
-      <div className="relative z-10">
-        {/* Hero Section */}
-        <section className="relative py-12 sm:py-16 lg:py-20 xl:py-24">
-          <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-            <div className="max-w-6xl mx-auto text-center">
-              <div className="space-y-3 lg:space-y-4">
-                {/* Hero Headline with gradient text animation */}
-                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-[1.1]">
-                  Choose Your
-                  <span className="block gradient-text-animated">
-                    Subscription
-                  </span>
-                </h1>
-                
-                {/* Hero Subtitle */}
-                <p className="text-lg sm:text-xl lg:text-2xl text-gray-400 leading-relaxed max-w-3xl mx-auto text-wrap-balance">
-                  Start free and upgrade when you're ready
-                </p>
-
-                {/* Trust indicators */}
-                <div className="flex items-center gap-6 text-sm text-gray-400 justify-center flex-wrap">
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 bg-gray-700 rounded-full flex items-center justify-center">
-                      <CheckCircle className="h-2.5 w-2.5 text-white" />
-                    </div>
-                    <span>Free plan available</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 bg-gray-700 rounded-full flex items-center justify-center">
-                      <CheckCircle className="h-2.5 w-2.5 text-white" />
-                    </div>
-                    <span>Premium AI features</span>
-                  </div>
-                </div>
+            {/* Trust Signals */}
+            <div className="flex flex-wrap justify-center items-center gap-6 text-sm text-gray-400 mb-8">
+              <div className="flex items-center gap-2">
+                <Lock className="h-4 w-4 text-green-400" />
+                <span>SSL Secured</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Shield className="h-4 w-4 text-green-400" />
+                <span>PCI Compliant</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <AlertCircle className="h-4 w-4 text-yellow-400" />
+                <span>No refunds - all sales final</span>
               </div>
             </div>
           </div>
-        </section>
+        </div>
 
-        {/* Pricing Section */}
-        <section className="w-full py-12 bg-black">
-          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto">
-
-          {/* Simplified Pricing Cards */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 mb-6 sm:mb-8">
-            {pricingPlans.map((plan, index) => (
-              <Card
-                key={index}
-                className="bg-[#080808] border-[#1c1c1c] rounded-xl p-0"
-              >
-                <div className="flex flex-col h-full p-4 sm:p-6 relative">
-                  {/* Simplified Plan Header */}
-                  <div className="text-center mb-4">
-                    
-                    <h3 className="text-lg sm:text-xl font-bold text-white mb-2">{plan.name}</h3>
-                    <p className="text-gray-400 text-xs sm:text-sm mb-3 leading-relaxed">{plan.description}</p>
-                    
-                    {/* Simplified Pricing */}
-                    <div className="mb-4">
-                      <div className="flex items-baseline justify-center gap-1">
-                        <span className="text-2xl sm:text-3xl font-bold text-white">{plan.price}</span>
-                        {plan.billing && (
-                          <span className="text-gray-400 text-xs sm:text-sm">{plan.billing}</span>
-                        )}
-                      </div>
-                    </div>
+      {/* Pricing Cards */}
+      <div className="w-full max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 mb-20">
+        {pricingPlans.map((plan, index) => (
+          <Card
+            key={index}
+            className={`card-dark rounded-xl p-0 transition-all duration-300 hover:shadow-lg border ${
+              plan.popular 
+                ? 'border-blue-500/50 shadow-blue-500/10' 
+                : 'border-gray-700/50'
+            }`}
+          >
+            <div className="flex flex-col h-full p-8 relative">
+              {/* Plan Header */}
+              <div className="text-center mb-8">
+                {plan.popular && (
+                  <div className="mb-4">
+                    <Badge className="bg-blue-600 text-white px-4 py-1 border-0 cursor-default">
+                      <Star className="mr-1 h-3 w-3" />
+                      Most Popular
+                    </Badge>
                   </div>
-                  
-                  {/* Simplified Features List - Show only key features */}
-                  <div className="flex-1 mb-4">
-                    <ul className="space-y-2">
-                      {plan.features.slice(0, 6).map((feature, featureIndex) => (
-                        <li key={featureIndex} className="flex items-start gap-2">
-                          {feature.included ? (
-                            <div className="w-3 h-3 sm:w-4 sm:h-4 bg-green-500/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                              <Check className="h-2 w-2 sm:h-2.5 sm:w-2.5 text-green-400" />
-                            </div>
-                          ) : (
-                            <div className="w-3 h-3 sm:w-4 sm:h-4 bg-gray-500/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                              <X className="h-2 w-2 sm:h-2.5 sm:w-2.5 text-gray-500" />
-                            </div>
-                          )}
-                          <span className={`text-xs sm:text-sm leading-relaxed ${feature.included ? 'text-gray-200' : 'text-gray-500'}`}>
-                            {feature.text}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                )}
+                <div className="w-12 h-12 bg-gray-700 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  {plan.icon === Crown ? (
+                    <Crown className="h-6 w-6 text-white" />
+                  ) : (
+                    <Zap className="h-6 w-6 text-white" />
+                  )}
+                </div>
                 
-                  {/* Simplified CTA Button */}
-                  <div className="flex justify-center">
-                    {getButtonForPlan(plan.name)}
+                <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">{plan.name}</h3>
+                <p className="text-gray-400 text-sm mb-6">{plan.description}</p>
+                
+                {/* Pricing */}
+                <div className="mb-6">
+                  <div className="flex items-baseline justify-center gap-2">
+                    <span className="text-3xl sm:text-4xl font-bold text-white">{plan.price}</span>
+                    {plan.billing && (
+                      <span className="text-gray-400">{plan.billing}</span>
+                    )}
                   </div>
+                  {plan.name === "Premium" && (
+                    <p className="text-gray-400 text-sm mt-2">Billed monthly • Cancel anytime</p>
+                  )}
                 </div>
-              </Card>
-            ))}
-          </div>
-
-          {/* Simplified FAQ Section - Show only 3 key questions */}
-          <div className="mb-6 sm:mb-8">
-            <div className="text-center mb-4 sm:mb-6">
-              <h2 className="text-lg sm:text-xl font-bold text-white mb-2">
-                Common Questions
-              </h2>
+              </div>
+              
+              {/* Features List */}
+              <div className="flex-1 mb-8">
+                <h4 className="font-semibold text-white mb-4">What's included:</h4>
+                <ul className="space-y-3">
+                  {plan.features.map((feature, featureIndex) => (
+                    <li key={featureIndex} className="flex items-start gap-3">
+                      {feature.included ? (
+                        <div className="w-5 h-5 bg-green-500/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <Check className="h-3 w-3 text-green-400" />
+                        </div>
+                      ) : (
+                        <div className="w-5 h-5 bg-gray-500/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <X className="h-3 w-3 text-gray-500" />
+                        </div>
+                      )}
+                      <span className={`text-sm ${feature.included ? 'text-gray-200' : 'text-gray-500'}`}>
+                        {feature.text}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            
+              {/* CTA Button */}
+              <div className="flex justify-center">
+                {getButtonForPlan(plan.name)}
+              </div>
             </div>
+          </Card>
+        ))}
+      </div>
 
-            <div className="space-y-3">
-              {faqs.slice(0, 3).map((faq, index) => (
-                <div
-                  key={index}
-                  className="bg-[#080808] border border-[#1c1c1c] rounded-lg p-3 sm:p-4"
-                >
-                  <h3 className="text-sm sm:text-base font-semibold text-white mb-2">
-                    {faq.question}
-                  </h3>
-                  <p className="text-gray-400 text-xs sm:text-sm leading-relaxed">
-                    {faq.answer}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
 
-          {/* Simplified Final CTA */}
-          <div className="text-center">
-            <h2 className="text-lg sm:text-xl font-bold text-white mb-3">
-              Ready to get started?
-            </h2>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center mb-3">
-              {user ? (
-                <Button asChild variant="neutral" className="px-4 py-2 font-bold rounded-full transition-all duration-200 hover:scale-105 text-sm">
-                  <Link to="/dashboard">
-                    <Settings className="mr-2 h-4 w-4" />
-                    Go to Dashboard
-                  </Link>
-                </Button>
-              ) : (
-                <Button asChild variant="neutral" className="px-4 py-2 font-bold rounded-full transition-all duration-200 hover:scale-105 text-sm">
-                  <Link to="/auth">
-                    <Bot className="mr-2 h-4 w-4" />
-                    Get Started Free
-                  </Link>
-                </Button>
-              )}
-            </div>
-            <p className="text-gray-500 text-xs">
-              No credit card required
-            </p>
-          </div>
+
+      {/* FAQ Section */}
+      <div className="container mx-auto mb-20">
+        <div className="text-center mb-12">
+          <h2 className="text-heading text-white mb-6">
+            Frequently Asked Questions
+          </h2>
+          <p className="text-subheading">
+            Got questions? We've got answers.
+          </p>
+        </div>
+
+        <div className="max-w-3xl mx-auto space-y-6">
+          {faqs.map((faq, index) => (
+            <Card key={index} className="card-dark">
+              <CardHeader>
+                <CardTitle className="text-base sm:text-lg text-white">
+                  {faq.question}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-400 text-sm sm:text-base">
+                  {faq.answer}
+                </p>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </div>
-        </section>
+
+      {/* Final CTA */}
+      <div className="container mx-auto text-center">
+        <Card className="card-dark max-w-3xl mx-auto p-8">
+          <div className="w-16 h-16 bg-gray-700 rounded-xl flex items-center justify-center mx-auto mb-6">
+            <Rocket className="h-8 w-8 text-white" />
+          </div>
+          <h2 className="text-heading text-white mb-6">
+            Ready to Transform Your Discord Server?
+          </h2>
+          <p className="text-subheading mb-8 max-w-3xl mx-auto">
+            Join thousands of Discord server owners using BuildForMe. 
+            Start free today and upgrade when you're ready.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            {user ? (
+              <Button asChild className="btn-gradient px-6 py-3 font-bold">
+                <Link to="/dashboard">
+                  <Settings className="mr-2 h-4 w-4" />
+                  Go to Dashboard
+                </Link>
+              </Button>
+            ) : (
+              <Button asChild className="btn-gradient px-6 py-3 font-bold">
+                <Link to="/auth">
+                  <Bot className="mr-2 h-4 w-4" />
+                  Get Started Free
+                </Link>
+              </Button>
+            )}
+          </div>
+          <p className="text-gray-500 text-xs sm:text-sm mt-6">
+            No credit card required • Cancel anytime • No refunds
+          </p>
+        </Card>
+      </div>
       </div>
     </div>
   );
@@ -457,21 +390,14 @@ const pricingPlans = [
     cta: "Get Started Free",
     features: [
       { text: "Basic server setup commands", included: true },
-      { text: "Channel management (manual)", included: true },
-      { text: "Role management (manual)", included: true },
-      { text: "Permission security tools", included: true },
+      { text: "Channel and role management", included: true },
+      { text: "Permission checking tools", included: true },
       { text: "Admin command hub", included: true },
-      { text: "Server management tools", included: true },
-      { text: "Backup & restore functionality", included: true },
-      { text: "Message & reaction cleanup", included: true },
       { text: "Community support", included: true },
       { text: "AI-powered server setup", included: false },
-      { text: "AI channel management", included: false },
-      { text: "AI role management", included: false },
       { text: "AI permission optimization", included: false },
-      { text: "Interactive AI cleanup", included: false },
-      { text: "AI theme application", included: false },
-      { text: "AI analytics & insights", included: false },
+      { text: "Advanced server cleanup", included: false },
+      { text: "Theme application", included: false },
       { text: "Priority support", included: false },
     ]
   },
@@ -487,17 +413,14 @@ const pricingPlans = [
     features: [
       { text: "Everything in Free", included: true },
       { text: "AI-powered server setup", included: true },
-      { text: "AI channel management", included: true },
-      { text: "AI role management", included: true },
-      { text: "AI permission optimization", included: true },
-      { text: "Interactive AI cleanup", included: true },
+      { text: "Intelligent permission fixing", included: true },
+      { text: "Advanced server cleanup & analysis", included: true },
       { text: "AI theme application", included: true },
-      { text: "AI analytics & insights", included: true },
-      { text: "Channel summaries & sentiment analysis", included: true },
-      { text: "Topic mapping & daily digests", included: true },
-      { text: "Q&A extraction & meeting minutes", included: true },
+      { text: "Smart channel management", included: true },
+      { text: "Interactive cleanup tools", included: true },
       { text: "Priority support", included: true },
       { text: "Early access to new features", included: true },
+      { text: "Advanced analytics", included: true },
     ]
   }
 ];

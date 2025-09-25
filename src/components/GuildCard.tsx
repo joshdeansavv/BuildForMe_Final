@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Server, Users, Crown, Bot, ExternalLink, Settings } from "lucide-react";
-import { buildBotInviteUrl, openInDiscordAppFirst } from '@/lib/discord';
 
 interface Guild {
   id: string;
@@ -12,6 +11,7 @@ interface Guild {
   icon: string | null;
   icon_url: string | null;
   owner: boolean;
+  member_count: number;
   subscription_status: string;
   bot_installed?: boolean;
 }
@@ -31,12 +31,17 @@ export const GuildCard: React.FC<GuildCardProps> = ({
 }) => {
   const getBotInviteUrl = () => {
     const clientId = import.meta.env.VITE_DISCORD_CLIENT_ID;
+    
+    // Validate client ID is configured
     if (!clientId || clientId === 'your_discord_client_id_here') {
       console.error('Discord client ID not configured');
       return '#';
     }
-    // Do NOT lock to a specific server; allow user to pick the server in Discord UI
-    return buildBotInviteUrl(clientId);
+    
+    const permissions = '8'; // Administrator permissions
+    const scope = 'bot%20applications.commands';
+    // Build the bot invite URL without redirect_uri (Discord bot invites don't support custom redirects)
+    return `https://discord.com/oauth2/authorize?client_id=${clientId}&permissions=${permissions}&scope=${scope}&guild_id=${guild.id}`;
   };
 
   const getSubscriptionBadge = () => {
@@ -50,10 +55,10 @@ export const GuildCard: React.FC<GuildCardProps> = ({
     }
   };
 
-  const isBotInstalled = guild.bot_installed === true; // Only show as installed if explicitly true
+  const isBotInstalled = guild.bot_installed !== false; // Assume installed unless explicitly false
 
   return (
-            <Card className="backdrop-blur-sm group">
+    <Card className="bg-discord-dark/50 border-border/50 backdrop-blur-sm hover:bg-discord-dark/80 transition-all group">
       <CardHeader className="pb-4">
         <div className="flex items-start justify-between">
           <div className="flex items-center space-x-3">
@@ -73,8 +78,8 @@ export const GuildCard: React.FC<GuildCardProps> = ({
               </CardTitle>
               <CardDescription className="text-discord-light text-sm">
                 <div className="flex items-center space-x-2">
-                  <Crown className="h-3 w-3" />
-                  <span>{guild.owner ? "Owner" : "Administrator"}</span>
+                  <Users className="h-3 w-3" />
+                  <span>{guild.member_count.toLocaleString()} members</span>
                 </div>
               </CardDescription>
             </div>
@@ -131,12 +136,13 @@ export const GuildCard: React.FC<GuildCardProps> = ({
               onClick={() => {
                 const inviteUrl = getBotInviteUrl();
                 if (inviteUrl === '#') {
+                  // Could add toast notification here if needed
                   console.error('Cannot invite bot: Discord client ID not configured');
                   return;
                 }
-                openInDiscordAppFirst(inviteUrl);
+                window.open(inviteUrl, '_blank');
               }}
-              className="w-full rounded-full !rounded-full h-9 bg-green-gradient hover:bg-green-600 text-white text-sm"
+              className="w-full bg-green-gradient hover:bg-green-600 text-white"
               size="sm"
             >
               <Bot className="mr-2 h-4 w-4" />

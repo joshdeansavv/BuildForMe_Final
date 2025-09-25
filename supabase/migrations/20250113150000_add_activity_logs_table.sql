@@ -43,7 +43,6 @@ RETURNS TABLE (
   last_activity TIMESTAMP WITH TIME ZONE
 ) AS $$
 BEGIN
-  SET search_path = public;
   RETURN QUERY
   SELECT 
     COUNT(*)::INTEGER as total_commands,
@@ -77,7 +76,6 @@ RETURNS TABLE (
   last_activity TIMESTAMP WITH TIME ZONE
 ) AS $$
 BEGIN
-  SET search_path = public;
   RETURN QUERY
   SELECT 
     COUNT(*)::INTEGER as total_commands,

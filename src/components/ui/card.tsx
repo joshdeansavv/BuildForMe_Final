@@ -9,9 +9,8 @@ const Card = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      // Allow callers to pass utility classes, but enforce unified card bg/border last
-      className,
-      "rounded-xl border bg-[#080808] border-[#1c1c1c] text-card-foreground shadow-sm"
+      "rounded-lg border border-gray-700 bg-card text-card-foreground shadow-sm",
+      className
     )}
     {...props}
   />

@@ -4,7 +4,6 @@ RETURNS TEXT AS $$
 DECLARE
   subscription_status TEXT;
 BEGIN
-  SET search_path = public;
   -- Check if server has an active subscription
   SELECT 
     CASE 

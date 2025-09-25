@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium transition-all duration-300 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
@@ -13,21 +13,19 @@ const buttonVariants = cva(
         destructive:
           "bg-destructive text-destructive-foreground shadow-md hover:shadow-lg hover:-translate-y-0.5 hover:bg-destructive/90",
         outline:
-          "border border-border bg-background shadow-sm hover:bg-accent hover:text-accent-foreground hover:shadow-md hover:-translate-y-0.5",
+          "border border-gray-700 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground hover:shadow-md hover:-translate-y-0.5",
         secondary:
           "bg-secondary text-secondary-foreground shadow-sm hover:shadow-md hover:-translate-y-0.5 hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        premium: "btn-gradient text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5",
-        success: "bg-emerald-500 text-white shadow-md hover:shadow-lg hover:-translate-y-0.5 hover:bg-emerald-500/90",
-        gray: "bg-gray-700 text-white border border-border shadow-sm hover:bg-gray-600 hover:shadow-md rounded-full",
-        neutral: "bg-gray-900/60 hover:bg-gray-900/80 text-white border border-gray-800 rounded-full",
+        premium: "btn-gradient text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5 hover:glow-primary",
+        success: "bg-success text-success-foreground shadow-md hover:shadow-lg hover:-translate-y-0.5 hover:bg-success/90",
       },
       size: {
         default: "h-11 px-6 py-3",
-        sm: "h-9 px-4 text-sm",
-        lg: "h-12 px-8 text-base",
-        xl: "h-14 px-10 text-lg",
+        sm: "h-9 rounded-xl px-4 text-sm",
+        lg: "h-12 rounded-xl px-8 text-base",
+        xl: "h-14 rounded-xl px-10 text-lg",
         icon: "h-11 w-11",
       },
     },

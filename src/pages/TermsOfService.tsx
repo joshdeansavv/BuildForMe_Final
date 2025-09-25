@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { ScrollText } from "lucide-react";
 
 const TermsOfService: React.FC = () => {
@@ -14,6 +15,11 @@ const TermsOfService: React.FC = () => {
       <div className="container mx-auto max-w-4xl">
         {/* Header */}
         <div className="text-center mb-16">
+          <Badge className="bg-gray-800 text-gray-300 px-3 py-1 text-sm font-medium mb-6 border border-gray-700 hover:bg-gray-800">
+            <ScrollText className="mr-2 h-3 w-3" />
+            Legal Document
+          </Badge>
+          
           <h1 className="text-hero text-white mb-6">
             Terms of Service
           </h1>
@@ -25,10 +31,10 @@ const TermsOfService: React.FC = () => {
         </div>
 
         {/* Content */}
-        <Card className="backdrop-blur-sm">
+        <Card className="bg-gray-900 border-gray-800 backdrop-blur-sm">
           <CardContent className="p-8 space-y-8">
             <section>
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6">1. Acceptance of Terms</h2>
+              <h2 className="text-heading text-white mb-6">1. Acceptance of Terms</h2>
               <div className="text-gray-300 space-y-4 leading-relaxed">
                 <p>
                   Welcome to BuildForMe ("Company," "we," "us," or "our"). These Terms of Service ("Terms") govern your use of our Discord bot, web dashboard, and related services (collectively, the "Service") operated by BuildForMe.
@@ -43,7 +49,7 @@ const TermsOfService: React.FC = () => {
             </section>
 
             <section>
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6">2. Description of Service</h2>
+              <h2 className="text-heading text-white mb-6">2. Description of Service</h2>
               <div className="text-gray-300 space-y-4 leading-relaxed">
                 <p>
                   BuildForMe provides a Discord bot and web dashboard designed to help Discord server administrators manage their communities through automated server setup, AI-powered moderation, and various administrative tools.
@@ -67,7 +73,7 @@ const TermsOfService: React.FC = () => {
             </section>
 
             <section>
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6">3. User Accounts and Registration</h2>
+              <h2 className="text-heading text-white mb-6">3. User Accounts and Registration</h2>
               <div className="text-gray-300 space-y-4 leading-relaxed">
                 <p>
                   To access certain features of our Service, you must register for an account by connecting your Discord account. You are responsible for maintaining the confidentiality of your account information and for all activities that occur under your account.
@@ -85,7 +91,7 @@ const TermsOfService: React.FC = () => {
             </section>
 
             <section>
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6">4. Acceptable Use Policy</h2>
+              <h2 className="text-heading text-white mb-6">4. Acceptable Use Policy</h2>
               <div className="text-gray-300 space-y-4 leading-relaxed">
                 <p>
                   You agree not to use the Service for any unlawful purpose or in any way that could damage, disable, overburden, or impair the Service. Prohibited activities include, but are not limited to:
@@ -112,7 +118,7 @@ const TermsOfService: React.FC = () => {
             </section>
 
             <section>
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6">5. Intellectual Property Rights</h2>
+              <h2 className="text-heading text-white mb-6">5. Intellectual Property Rights</h2>
               <div className="text-gray-300 space-y-4 leading-relaxed">
                 <p>
                   The Service and its original content, features, and functionality are and will remain the exclusive property of BuildForMe and its licensors. The Service is protected by copyright, trademark, and other laws. Our trademarks and trade dress may not be used without our prior written permission.
@@ -127,7 +133,7 @@ const TermsOfService: React.FC = () => {
             </section>
 
             <section>
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6">6. Privacy and Data Protection</h2>
+              <h2 className="text-heading text-white mb-6">6. Privacy and Data Protection</h2>
               <div className="text-gray-300 space-y-4 leading-relaxed">
                 <p>
                   Your privacy is important to us. Our Privacy Policy explains how we collect, use, and protect your information when you use our Service. By using our Service, you agree to the collection and use of information in accordance with our Privacy Policy.
@@ -142,7 +148,7 @@ const TermsOfService: React.FC = () => {
             </section>
 
             <section>
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6">7. Subscription Plans and Payments</h2>
+              <h2 className="text-heading text-white mb-6">7. Subscription Plans and Payments</h2>
               <div className="text-gray-300 space-y-4 leading-relaxed">
                 <p>
                   We offer both free and paid subscription plans for our Service. Paid subscriptions provide access to premium features and enhanced functionality. All subscription fees are due in advance and are non-refundable except as required by law.
@@ -163,7 +169,7 @@ const TermsOfService: React.FC = () => {
             </section>
 
             <section>
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6">8. Refund Policy</h2>
+              <h2 className="text-heading text-white mb-6">8. Refund Policy</h2>
               <div className="text-gray-300 space-y-4 leading-relaxed">
                 <p>
                   <strong className="text-white">All sales are final.</strong> We do not offer refunds for any subscription fees or other charges, except as required by applicable law or as otherwise specified in these Terms.
@@ -181,7 +187,7 @@ const TermsOfService: React.FC = () => {
             </section>
 
             <section>
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6">9. Disclaimers and Limitation of Liability</h2>
+              <h2 className="text-heading text-white mb-6">9. Disclaimers and Limitation of Liability</h2>
               <div className="text-gray-300 space-y-4 leading-relaxed">
                 <p>
                   <strong className="text-white">DISCLAIMER:</strong> THE SERVICE IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT ANY WARRANTIES OF ANY KIND, WHETHER EXPRESS OR IMPLIED. WE DISCLAIM ALL WARRANTIES, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
@@ -202,7 +208,7 @@ const TermsOfService: React.FC = () => {
             </section>
 
             <section>
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6">10. Indemnification</h2>
+              <h2 className="text-heading text-white mb-6">10. Indemnification</h2>
               <div className="text-gray-300 space-y-4 leading-relaxed">
                 <p>
                   You agree to indemnify, defend, and hold harmless BuildForMe, its officers, directors, employees, agents, and affiliates from and against any and all claims, damages, obligations, losses, liabilities, costs, and expenses (including reasonable attorney's fees) arising from:
@@ -220,7 +226,7 @@ const TermsOfService: React.FC = () => {
             </section>
 
             <section>
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6">11. Termination</h2>
+              <h2 className="text-heading text-white mb-6">11. Termination</h2>
               <div className="text-gray-300 space-y-4 leading-relaxed">
                 <p>
                   We may terminate or suspend your account and access to the Service immediately, without prior notice or liability, for any reason, including breach of these Terms.
@@ -238,7 +244,7 @@ const TermsOfService: React.FC = () => {
             </section>
 
             <section>
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6">12. Governing Law and Jurisdiction</h2>
+              <h2 className="text-heading text-white mb-6">12. Governing Law and Jurisdiction</h2>
               <div className="text-gray-300 space-y-4 leading-relaxed">
                 <p>
                   These Terms shall be governed by and construed in accordance with the laws of the United States and the state where BuildForMe is incorporated, without regard to conflict of law principles.
@@ -250,14 +256,14 @@ const TermsOfService: React.FC = () => {
             </section>
 
             <section>
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6">13. Contact Information</h2>
+              <h2 className="text-heading text-white mb-6">13. Contact Information</h2>
               <div className="text-gray-300 space-y-4 leading-relaxed">
                 <p>
                   If you have any questions about these Terms of Service, please contact us at:
                 </p>
                 <div className="bg-gray-800 p-4 rounded-lg">
                   <p className="text-white font-medium">BuildForMe Support</p>
-                  <p>Email: buildformeapp@gmail.com</p>
+                  <p>Email: support@buildforme.xyz</p>
                   <p>Website: https://buildforme.xyz</p>
                 </div>
                 <p>
