@@ -478,7 +478,7 @@ const pricingPlans = [
   {
     name: "Premium",
     description: "Unlock the full power of AI for professional server management",
-    price: "$1.99",
+    price: "$11.99",
     billing: "per month",
     icon: Crown,
     popular: true,
@@ -521,7 +521,7 @@ const faqs = [
   },
   {
     question: "Is there a setup fee?",
-    answer: "No setup fees, no hidden costs. Just $1.99/month for premium features or use the free plan forever. What you see is what you pay."
+    answer: "No setup fees, no hidden costs. Just $11.99/month for premium features or use the free plan forever. What you see is what you pay."
   },
   {
     question: "How do I manage my billing?",
