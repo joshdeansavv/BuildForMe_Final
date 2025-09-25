@@ -2,7 +2,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useAuth } from "@/contexts/AuthContext";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
 import { Calendar, CreditCard, Receipt, ExternalLink, Crown, AlertCircle } from "lucide-react";
 import { format } from "date-fns";
 import { useState } from "react";
@@ -36,15 +35,6 @@ const Billing = () => {
       });
 
       if (response.error) {
-        // Check if this is a development account
-        if (response.data?.isDevAccount) {
-          toast({
-            title: "Development Account",
-            description: "This is a free premium development account. Billing management is not available.",
-            variant: "default",
-          });
-          return;
-        }
         throw new Error(response.error.message || 'Failed to create billing portal session');
       }
 
@@ -100,9 +90,9 @@ const Billing = () => {
                 <span className="text-sm text-muted-foreground">Status</span>
                 <div>
                   {subscription?.subscribed ? (
-                    <Badge className="bg-green-500/10 text-green-500 border-green-500/20 cursor-default">Active</Badge>
+                    <Badge className="bg-green-500/10 text-green-500 border-green-500/20">Active</Badge>
                   ) : (
-                    <Badge variant="secondary" className="cursor-default">Free</Badge>
+                    <Badge variant="secondary">Free</Badge>
                   )}
                 </div>
               </div>
@@ -150,13 +140,11 @@ const Billing = () => {
               {!subscription?.subscribed && (
                 <div className="pt-4 border-t">
                   <Button 
-                    asChild
+                    onClick={() => window.location.href = '/pricing'}
                     className="w-full"
                   >
-                    <Link to="/pricing">
                     <Crown className="w-4 h-4 mr-2" />
                     Upgrade to Premium
-                    </Link>
                   </Button>
                 </div>
               )}
@@ -256,16 +244,14 @@ const Billing = () => {
                 Unlock AI-Powered Features
               </h3>
               <p className="text-muted-foreground mb-4 max-w-md mx-auto">
-                Get access to AI server building, advanced analytics, and premium support for just $11.99/month.
+                Get access to AI server building, advanced analytics, and premium support for just $20/month.
               </p>
               <Button 
-                asChild
+                onClick={() => window.location.href = '/pricing'}
                 className="w-full max-w-xs"
               >
-                <Link to="/pricing">
                 <Crown className="w-4 h-4 mr-2" />
                 View Pricing Plans
-                </Link>
               </Button>
             </div>
           </CardContent>

@@ -59,6 +59,8 @@ const Pricing = () => {
     }
   }, [toast, refreshSubscription]);
 
+
+
   const handleManageBilling = async () => {
     if (!user || !session) {
       toast({
@@ -81,15 +83,6 @@ const Pricing = () => {
       });
 
       if (response.error) {
-        // Check if this is a development account
-        if (response.data?.isDevAccount) {
-          toast({
-            title: "Development Account",
-            description: "This is a free premium development account. Billing management is not available.",
-            variant: "default",
-          });
-          return;
-        }
         throw new Error(response.error.message || 'Failed to create billing portal session');
       }
 
@@ -108,94 +101,12 @@ const Pricing = () => {
     }
   };
 
-
-
-  const getButtonForPlan = (planName: string) => {
-    const isSubscribed = subscription?.subscribed;
-    const currentTier = subscription?.subscription_tier || 'free';
-    
-    // User is not logged in
-    if (!user) {
-      if (planName === "Free") {
-        return (
-          <Button asChild className="bg-white text-black hover:bg-gray-200 font-bold py-3">
-            <Link to="/auth">
-              Get Started Free
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
-        );
-      } else {
-        return (
-          <Button asChild className="btn-gradient font-bold py-3">
-            <Link to="/auth">
-              Upgrade Now
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
-        );
-      }
-    }
-
-    // User is logged in
-    if (planName === "Free") {
-      if (currentTier === 'free') {
-        return (
-          <Button className="bg-gray-700 text-gray-300 cursor-not-allowed font-bold py-3" disabled>
-            <Check className="mr-2 h-4 w-4" />
-            You're on this plan
-          </Button>
-        );
-      } else {
-        return (
-          <Button 
-            asChild
-            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3"
-          >
-            <Link to="/dashboard">
-              <Settings className="mr-2 h-4 w-4" />
-              Manage Subscription
-            </Link>
-          </Button>
-        );
-      }
-    } else if (planName === "Premium") {
-      if (currentTier === 'pro' || currentTier === 'premium') {
-        return (
-          <Button className="bg-gray-700 text-gray-300 cursor-not-allowed font-bold py-3" disabled>
-            <Check className="mr-2 h-4 w-4" />
-            You're on this plan
-          </Button>
-        );
-      } else {
-        return (
-          <Button asChild className="btn-gradient font-bold py-3">
-            <Link to="/dashboard">
-              Upgrade to Premium
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
-        );
-      }
-    }
-
-    // Fallback
-    return (
-      <Button asChild className="btn-gradient font-bold py-3">
-        <Link to="/dashboard">
-          Get Started
-          <ArrowRight className="ml-2 h-4 w-4" />
-        </Link>
-      </Button>
-    );
-  };
-
   return (
     <div className="min-h-screen bg-pure-black py-16 px-4">
       <div className="container mx-auto max-w-6xl">
         {/* Header */}
         <div className="text-center mb-16">
-          <Badge className="bg-gray-800 text-gray-300 px-3 py-1 text-sm font-medium mb-6 border border-gray-700 cursor-default">
+          <Badge className="bg-gray-800 text-gray-300 px-3 py-1 text-sm font-medium mb-6 border border-gray-700">
             <SparklesIcon className="mr-2 h-3 w-3" />
             Simple Pricing
           </Badge>
@@ -244,7 +155,7 @@ const Pricing = () => {
               <div className="text-center mb-8">
                 {plan.popular && (
                   <div className="mb-4">
-                    <Badge className="bg-blue-600 text-white px-4 py-1 border-0 cursor-default">
+                    <Badge className="bg-blue-600 text-white px-4 py-1 border-0">
                       <Star className="mr-1 h-3 w-3" />
                       Most Popular
                     </Badge>
@@ -300,14 +211,41 @@ const Pricing = () => {
             
               {/* CTA Button */}
               <div className="flex justify-center">
-                {getButtonForPlan(plan.name)}
+                {plan.ctaType === 'dashboard' ? (
+                  <Button asChild className="btn-gradient font-bold py-3">
+                    <Link to="/dashboard">
+                      {plan.cta}
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                ) : plan.ctaType === 'auth' ? (
+                  <Button asChild className="bg-white text-black hover:bg-gray-200 font-bold py-3">
+                    <Link to="/auth">
+                      {plan.cta}
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                ) : subscription?.subscribed ? (
+                  <Button
+                    className="bg-gray-700 text-gray-300 cursor-not-allowed font-bold py-3"
+                    disabled={true}
+                  >
+                    <Check className="mr-2 h-4 w-4" />
+                    Current Subscription
+                  </Button>
+                ) : (
+                  <Button asChild className="btn-gradient font-bold py-3">
+                    <Link to="/dashboard">
+                      {plan.cta}
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                )}
               </div>
             </div>
           </Card>
         ))}
       </div>
-
-
 
       {/* FAQ Section */}
       <div className="container mx-auto mb-20">
@@ -404,7 +342,7 @@ const pricingPlans = [
   {
     name: "Premium",
     description: "Unlock the full power of AI for professional server management",
-    price: "$11.99",
+    price: "$20",
     billing: "per month",
     icon: Crown,
     popular: true,
@@ -444,7 +382,7 @@ const faqs = [
   },
   {
     question: "Is there a setup fee?",
-    answer: "No setup fees, no hidden costs. Just $11.99/month for premium features or use the free plan forever. What you see is what you pay."
+    answer: "No setup fees, no hidden costs. Just $20/month for premium features or use the free plan forever. What you see is what you pay."
   },
   {
     question: "How do I manage my billing?",

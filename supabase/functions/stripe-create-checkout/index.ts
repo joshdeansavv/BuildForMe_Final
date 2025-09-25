@@ -1,3 +1,4 @@
+
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@14.21.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
@@ -25,12 +26,6 @@ serve(async (req) => {
   try {
     logStep("Function started");
 
-    // Parse request body to get parameters
-    const body = await req.json();
-    const { price_id, guild_id, guild_name, success_url, cancel_url } = body;
-    
-    logStep("Request parameters", { price_id, guild_id, guild_name, success_url, cancel_url });
-
     const authHeader = req.headers.get("Authorization")!;
     const token = authHeader.replace("Bearer ", "");
     const { data } = await supabaseClient.auth.getUser(token);
@@ -38,29 +33,6 @@ serve(async (req) => {
     if (!user?.email) throw new Error("User not authenticated or email not available");
 
     logStep("User authenticated", { userId: user.id, email: user.email });
-
-    // Check if this is a development account with existing premium access
-    const { data: subscriber } = await supabaseClient
-      .from("subscribers")
-      .select("discord_username, subscription_status")
-      .eq("email", user.email)
-      .single();
-
-    const developmentAccounts = ['joshdeanpro', 'aidenbgegos'];
-    const isDevAccount = subscriber?.discord_username && 
-                        developmentAccounts.includes(subscriber.discord_username);
-
-    if (isDevAccount && subscriber?.subscription_status === 'active') {
-      logStep("🎯 Development account with active premium detected", { username: subscriber.discord_username });
-      
-      return new Response(JSON.stringify({ 
-        error: "Development account already has premium access. No upgrade needed.",
-        isDevAccount: true 
-      }), {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-        status: 400,
-      });
-    }
 
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", { apiVersion: "2023-10-16" });
     
@@ -71,31 +43,23 @@ serve(async (req) => {
       logStep("Existing customer found", { customerId });
     }
 
-    // Prepare line items - use price_id if provided, otherwise use dynamic pricing
-    const lineItems = price_id ? [
-      {
-        price: price_id,
-        quantity: 1,
-      },
-    ] : [
-      {
-        price_data: {
-          currency: "usd",
-          product_data: { name: "BuildForMe Pro Subscription" },
-          unit_amount: 1199, // $11.99
-          recurring: { interval: "month" },
-        },
-        quantity: 1,
-      },
-    ];
-
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
       customer_email: customerId ? undefined : user.email,
-      line_items: lineItems,
+      line_items: [
+        {
+          price_data: {
+            currency: "usd",
+            product_data: { name: "BuildForMe Pro Subscription" },
+            unit_amount: 2000, // $20.00
+            recurring: { interval: "month" },
+          },
+          quantity: 1,
+        },
+      ],
       mode: "subscription",
-      success_url: success_url || `${req.headers.get("origin")}/dashboard?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: cancel_url || `${req.headers.get("origin")}/dashboard`,
+      success_url: `${req.headers.get("origin")}/dashboard?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${req.headers.get("origin")}/dashboard`,
     });
 
     logStep("Checkout session created", { sessionId: session.id });

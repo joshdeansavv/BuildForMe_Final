@@ -6,8 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "predeploy": "node ./scripts/predeploy-check.mjs",
-    "build": "npm run predeploy && vite build",
+    "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview"

@@ -54,7 +54,7 @@ const plans: PricingPlan[] = [
     id: 'ai_premium',
     name: 'AI Premium',
     description: 'Advanced AI-powered features for active communities',
-    price: 1199, // $11.99 in cents
+    price: 2000, // $20.00 in cents
     interval: 'month',
     stripe_price_id: import.meta.env.VITE_STRIPE_AI_PREMIUM_PRICE_ID || '',
     popular: true,
@@ -98,13 +98,23 @@ export function StripeCheckout({ guildId, guildName, onSuccess }: StripeCheckout
       return;
     }
 
+    // Validate that Stripe price ID is configured
+    if (!plan.stripe_price_id || plan.stripe_price_id === 'your_stripe_ai_premium_price_id_here' || plan.stripe_price_id === 'price_your_actual_stripe_price_id_here') {
+      toast({
+        title: "Payment Configuration Error",
+        description: "Payment system is not properly configured. Please contact support.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setLoading(plan.id);
 
     try {
       // Create checkout session
       const response = await supabase.functions.invoke('stripe-create-checkout', {
         body: {
-          // Remove price_id to use dynamic pricing ($59.99)
+          price_id: plan.stripe_price_id,
           guild_id: guildId,
           guild_name: guildName,
           success_url: `${window.location.origin}/dashboard?success=true`,

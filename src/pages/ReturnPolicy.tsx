@@ -150,7 +150,7 @@ const ReturnPolicy: React.FC = () => {
                     <ul className="list-disc pl-6 space-y-2 text-gray-300">
                       <li>Your dashboard account settings</li>
                       <li>The Stripe Customer Portal (for Stripe payments)</li>
-                      <li>Contacting us at buildformeapp@gmail.com</li>
+                      <li>Contacting our support team at support@buildforme.xyz</li>
                     </ul>
                   </div>
                 </div>
@@ -174,7 +174,7 @@ const ReturnPolicy: React.FC = () => {
                 <div>
                   <h3 className="text-xl sm:text-2xl font-bold text-white mb-4">4.3 Cancellation Confirmation</h3>
                   <p className="text-gray-300">
-                    We will send you a confirmation email when your cancellation is processed. If you do not receive confirmation within 24 hours, please contact us at buildformeapp@gmail.com immediately.
+                    We will send you a confirmation email when your cancellation is processed. If you do not receive confirmation within 24 hours, please contact support immediately.
                   </p>
                 </div>
               </div>
@@ -188,7 +188,7 @@ const ReturnPolicy: React.FC = () => {
                   <h3 className="text-xl sm:text-2xl font-bold text-white mb-4">5.1 Billing Errors</h3>
                   <div className="text-gray-300 space-y-4 leading-relaxed">
                     <p>
-                      If you believe there has been a billing error, please contact us immediately at buildformeapp@gmail.com. We will investigate legitimate billing errors and take appropriate action, which may include:
+                      If you believe there has been a billing error, please contact us immediately at billing@buildforme.xyz. We will investigate legitimate billing errors and take appropriate action, which may include:
                     </p>
                     <ul className="list-disc pl-6 space-y-2 text-gray-300">
                       <li>Correcting erroneous charges</li>
@@ -209,7 +209,7 @@ const ReturnPolicy: React.FC = () => {
                 <div>
                   <h3 className="text-xl sm:text-2xl font-bold text-white mb-4">5.3 Unauthorized Charges</h3>
                   <p className="text-gray-300">
-                    If you believe you have been charged without authorization, please contact us at buildformeapp@gmail.com immediately. We will investigate and take appropriate action, which may include refunding unauthorized charges.
+                    If you believe you have been charged without authorization, please contact us immediately. We will investigate and take appropriate action, which may include refunding unauthorized charges.
                   </p>
                 </div>
 
@@ -304,7 +304,7 @@ const ReturnPolicy: React.FC = () => {
                 <div>
                   <h3 className="text-xl sm:text-2xl font-bold text-white mb-4">7.3 Resolution Process</h3>
                   <p className="text-gray-300">
-                    Before initiating a chargeback, please contact us at buildformeapp@gmail.com to discuss your concerns. We are committed to resolving disputes fairly and promptly.
+                    Before initiating a chargeback, please contact us at billing@buildforme.xyz to discuss your concerns. We are committed to resolving disputes fairly and promptly.
                   </p>
                 </div>
               </div>
@@ -317,7 +317,9 @@ const ReturnPolicy: React.FC = () => {
                   For questions about this Return & Refund Policy, billing disputes, or cancellation requests, please contact us at:
                 </p>
                 <div className="bg-gray-800 p-4 rounded-lg">
-                  <p>Email: buildformeapp@gmail.com</p>
+                  <p className="text-white font-medium">BuildForMe Billing Support</p>
+                  <p>Email: billing@buildforme.xyz</p>
+                  <p>Support: support@buildforme.xyz</p>
                   <p>Website: https://buildforme.xyz</p>
                 </div>
                 <p>

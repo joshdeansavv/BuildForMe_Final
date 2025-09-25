@@ -54,9 +54,20 @@ export default function Servers() {
     }
 
     try {
+      const priceId = import.meta.env.VITE_STRIPE_AI_PREMIUM_PRICE_ID;
+      
+      if (!priceId || priceId === 'your_stripe_ai_premium_price_id_here' || priceId === 'price_your_actual_stripe_price_id_here') {
+        toast({
+          title: "Payment Configuration Error",
+          description: "Payment system is not properly configured. Please contact support.",
+          variant: "destructive",
+        });
+        return;
+      }
+
       const response = await supabase.functions.invoke('stripe-create-checkout', {
         body: {
-          // Remove price_id to use dynamic pricing ($11.99)
+          price_id: priceId,
           guild_id: guildId,
           guild_name: guildName,
           success_url: `${window.location.origin}/servers?success=true`,
